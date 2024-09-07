@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} flex max-sm:flex-col`}>
+      <body className={`${inter.className} flex max-md:flex-col`}>
         <Sidebar />
         {children}
       </body>

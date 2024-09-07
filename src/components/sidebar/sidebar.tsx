@@ -10,7 +10,7 @@ export default function Sidebar() {
 
     return (
         <>
-            <div className={`h-screen bg-purple-900 ${isOpen ? "w-72" : "w-28"} duration-300 relative max-sm:hidden `}>
+            <div className={`h-screen bg-purple-900 ${isOpen ? "min-w-72" : "min-w-28"} duration-300 relative max-md:hidden`}>
                 <Icon className={`bg-white text-purple-950 text-6xl rounded-full absolute -right-7 top-9 border-2 border-purple-900 cursor-pointer ${!isOpen && "rotate-180"} duration-500 `} onClick={() => setIsOpen(!isOpen)} icon="mingcute:arrow-left-fill" />
                 <div className=" pt-5 justify-center hidden">
                     <Link className="text-white " href="/">hola</Link>
@@ -52,7 +52,7 @@ export default function Sidebar() {
                     </div>
                 </div>
             </div>
-            <div className="w-full flex items-center justify-center h-20 bg-purple-900 sm:hidden">
+            <div className="w-full flex items-center justify-center h-20 bg-purple-900 md:hidden">
                 <div>
                     <Link className="flex items-center " href="/vender">
                         <Icon className={`text-white mr-2 float-left text-5xl `} icon="material-symbols:sell-outline" />

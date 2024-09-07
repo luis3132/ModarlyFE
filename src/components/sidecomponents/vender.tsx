@@ -9,7 +9,7 @@ export default function Vender() {
                         <Icon icon="mdi:magnify" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white text-xl" />
                         <input
                             type="text"
-                            placeholder="Buscar producto"
+                            placeholder="Buscar"
                             className="w-full bg-purple-700 hover:bg-purple-900 text-white p-2 pl-10 rounded-lg"
                         />
                     </div>
