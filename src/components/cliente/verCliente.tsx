@@ -135,7 +135,7 @@ const VerCliente: FC<ClientesProps> = ({ cliente, closeComponent, setReload }) =
                                     leave="ease-in duration-200"
                                     leaveFrom="opacity-100 scale-100"
                                     leaveTo="opacity-0 scale-95">
-                                    <div className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 xl:w-[40%] w-[80%] bg-white rounded-lg pb-1 ">
+                                    <div className={` absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${edit ? "xl:w-[30%]" : "xl:w-[40%]"} w-[80%] bg-white rounded-lg pb-1 `}>
                                         {edit ? (<>
                                             <button title="close" className=" float-right pr-1 pt-1" onClick={closeComponent}><Icon icon="material-symbols:close" width={30} height={30} /></button>
                                             <div className="text-2xl pt-3 pl-10" >{cliente1.nombres} {cliente1.apellidos}</div>
@@ -186,40 +186,40 @@ const VerCliente: FC<ClientesProps> = ({ cliente, closeComponent, setReload }) =
                                         </>) : (<>
                                             <button title="close" className=" float-right pr-1 pt-1" onClick={closeComponent}><Icon icon="material-symbols:close" width={30} height={30} /></button>
                                             <div className="text-2xl pt-3 pl-10" >{cliente.nombres} {cliente.apellidos}</div>
-                                            <div className="w-full flex">
+                                            <div className="w-full md:flex">
                                                 <div>
                                                     <div className="" >
-                                                        <div className="text-left w-full pl-5">Cedula:</div>
+                                                        <div className="text-left w-full pl-5 font-bold">Cedula:</div>
                                                         <input title='z' disabled value={cliente.cedula} id="cedula1" type="number" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" ></input>
                                                     </div>
                                                     <div className="" >
-                                                        <div className="text-left w-full pl-5">Nombres:</div>
-                                                        <input disabled value={cliente.nombres} id="nombres1" type="text" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" placeholder="Daniel Esteban" ></input>
+                                                        <div className="text-left w-full pl-5 font-bold">Nombres:</div>
+                                                        <input disabled value={cliente.nombres} id="nombres1" type="text" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" placeholder="N.N." ></input>
                                                     </div>
                                                     <div className="" >
-                                                        <div className="text-left w-full pl-5">Apellidos:</div>
-                                                        <input disabled value={cliente.apellidos} id="apellidos1" type="text" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" placeholder="Gomez Salazar" ></input>
+                                                        <div className="text-left w-full pl-5 font-bold">Apellidos:</div>
+                                                        <input disabled value={cliente.apellidos} id="apellidos1" type="text" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" placeholder="N.N." ></input>
                                                     </div>
                                                     <div className="" >
-                                                        <div className="text-left w-full pl-5">Telefono:</div>
-                                                        <input disabled value={cliente.telefono} id="telefono1" type="number" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" placeholder="3103538952" ></input>
+                                                        <div className="text-left w-full pl-5 font-bold">Telefono:</div>
+                                                        <input disabled value={cliente.telefono} id="telefono1" type="number" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" placeholder="N.N." ></input>
                                                     </div>
                                                     <div className="" >
-                                                        <div className="text-left w-full pl-5">Fijo:</div>
-                                                        <input disabled value={cliente.fijo} id="fijo1" type="number" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" placeholder="6076363636" ></input>
+                                                        <div className="text-left w-full pl-5 font-bold">Fijo:</div>
+                                                        <input disabled value={cliente.fijo} id="fijo1" type="number" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" placeholder="N.N." ></input>
                                                     </div>
                                                     <div className="" >
-                                                        <div className="text-left w-full pl-5">Descripcion:</div>
-                                                        <textarea disabled value={cliente.descripcion} id="descripcion1" className="bg-black bg-opacity-10 h-8 rounded-3xl text-center w-[80%] pl-2" placeholder="descripcion" ></textarea>
+                                                        <div className="text-left w-full pl-5 font-bold">Descripcion:</div>
+                                                        <textarea disabled value={cliente.descripcion} id="descripcion1" className="bg-black bg-opacity-10 h-8 rounded-3xl text-center w-[80%] pl-2" placeholder="."></textarea>
                                                     </div>
                                                     <div className="" >
-                                                        <div className="text-left w-full pl-5">Mayorista:</div>
+                                                        <div className="text-left w-full pl-5 font-bold">Mayorista:</div>
                                                         <input title="z" disabled checked={cliente.mayorista} id="mayorista1" type="checkbox" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" ></input>
                                                     </div>
 
                                                 </div>
-                                                <div>
-
+                                                <div className="w-full py-4 pr-4 max-md:pl-4">
+                                                    <img src="/hello-kitty-pictures-xeulf538v4jogtue.jpg" alt="user" width="w-full" height={200} />
                                                 </div>
                                             </div>
                                             <div className="flex-row justify-center w-full flex items-center pt-2 ">

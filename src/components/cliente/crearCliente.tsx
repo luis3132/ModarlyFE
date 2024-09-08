@@ -51,28 +51,36 @@ const CrearCliente: FC<CrearClienteProps> = ({ closeComponent, setReload }) => {
     }
     // Function to handle the save button
     const handleSave = () => {
-        Swal.fire({
-            title: 'Guardar Cliente',
-            text: "¿Estas seguro de guardar este cliente?",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Guardar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                saveClient();
-                Swal.fire(
-                    'Guardado!',
-                    'El cliente ha sido guardado.',
-                    'success'
-                ).then(() => {
-                setReload();
-                closeModal();
-                });
-            }
-        });
+        if (cliente.cedula === "" || cliente.nombres === "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Por favor llene cedula y nombres!',
+            });
+        } else {
+            Swal.fire({
+                title: 'Guardar Cliente',
+                text: "¿Estas seguro de guardar este cliente?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Guardar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    saveClient();
+                    Swal.fire(
+                        'Guardado!',
+                        'El cliente ha sido guardado.',
+                        'success'
+                    ).then(() => {
+                    setReload();
+                    closeModal();
+                    });
+                }
+            });
+        }
     }
     // Function to save the client
     const saveClient = async () => {

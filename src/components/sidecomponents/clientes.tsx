@@ -7,7 +7,7 @@ interface ClientesProps {
     setReload: () => void;
 }
 
-const Clientes: FC<ClientesProps> = ({setSearchQuery, setReload}) => {
+const Clientes: FC<ClientesProps> = ({ setSearchQuery, setReload }) => {
 
     const [showAddCliente, setShowAddCliente] = useState(false);
 
@@ -21,9 +21,6 @@ const Clientes: FC<ClientesProps> = ({setSearchQuery, setReload}) => {
                 <div className="pr-5 pl-10 pt-11">
                     <button className="bg-purple-700 hover:bg-purple-900 text-white rounded-lg p-2 w-full" onClick={handleAddCliente} >Agregar Cliente</button>
                 </div>
-                {showAddCliente && (
-                    <CrearCliente closeComponent={handleAddCliente} setReload={setReload} />
-                    )}
                 <div className="p-5">
                     <div className="relative">
                         <Icon icon="mdi:magnify" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white text-xl" />
@@ -37,12 +34,9 @@ const Clientes: FC<ClientesProps> = ({setSearchQuery, setReload}) => {
                 </div>
             </div>
             <div className="w-full shadow-lg shadow-gray-600 md:hidden overflow-y-scroll custom-scrollbar bg-purple-200">
-                <div className="pr-5 pl-5 pt-5">
+                <div className="px-5 pt-5">
                     <button className="bg-purple-700 hover:bg-purple-900 text-white rounded-lg p-2 w-full" onClick={handleAddCliente} >Agregar Cliente</button>
                 </div>
-                {showAddCliente && (
-                    <CrearCliente closeComponent={handleAddCliente} setReload={setReload} />
-                    )}
                 <div className="p-5">
                     <div className="relative">
                         <Icon icon="mdi:magnify" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white text-xl" />
@@ -55,6 +49,9 @@ const Clientes: FC<ClientesProps> = ({setSearchQuery, setReload}) => {
                     </div>
                 </div>
             </div>
+            {showAddCliente && (
+                <CrearCliente closeComponent={handleAddCliente} setReload={setReload} />
+            )}
         </>
     )
 }
