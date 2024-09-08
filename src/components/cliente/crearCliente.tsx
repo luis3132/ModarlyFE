@@ -67,9 +67,10 @@ const CrearCliente: FC<CrearClienteProps> = ({ closeComponent, setReload }) => {
                     'Guardado!',
                     'El cliente ha sido guardado.',
                     'success'
-                );
-                setReload;
+                ).then(() => {
+                setReload();
                 closeModal();
+                });
             }
         });
     }

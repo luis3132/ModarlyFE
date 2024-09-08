@@ -49,14 +49,18 @@ export default function Home() {
         cliente.cedula.includes(searchQuery)
     );
 
+    const handleReload = () => {
+        setReload(!reload);
+    }
+
     console.log(reload);
 
     return (
         <>
-            <Clientes setSearchQuery={setSearchQuery} setReload={()=>{setReload(!reload)}} />
+            <Clientes setSearchQuery={setSearchQuery} setReload={handleReload} />
             <div className={`p-10 flex-grow h-screen overflow-scroll custom-scrollbar flex flex-wrap ${loading ? "hidden" : ""} ${error && "hidden"}`}>
                 {filteredClientes.map((cliente) => (
-                    <ListarCliente cliente={cliente} key={cliente.cedula} />
+                    <ListarCliente cliente={cliente} key={cliente.cedula} setReload={handleReload} />
                 ))}
             </div>
             <div className={`p-10 flex-grow h-screen justify-center flex items-center ${loading ? "" : "hidden"}`}>

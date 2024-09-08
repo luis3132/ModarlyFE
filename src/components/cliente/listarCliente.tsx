@@ -2,10 +2,18 @@ import { FC, useState } from "react";
 import VerCliente from "./verCliente";
 
 interface ClientesProps {
-    cliente: {cedula: string, nombres: string, apellidos: string, mayorista: boolean, telefono: string, fijo: string, descripcion: string};
+    cliente: {
+        cedula: string, 
+        nombres: string, 
+        apellidos: string, 
+        mayorista: boolean, 
+        telefono: string, 
+        fijo: string, 
+        descripcion: string};
+    setReload: () => void;
 }
 
-const ListarCliente: FC<ClientesProps> = ({cliente}) => {
+const ListarCliente: FC<ClientesProps> = ({cliente, setReload}) => {
     const [showCliente, setShowCliente] = useState(false);
 
     const handShowCliente = () => {
@@ -21,7 +29,7 @@ const ListarCliente: FC<ClientesProps> = ({cliente}) => {
                 <button type="button" title="show" className="bg-blue-500 text-white p-2 rounded-lg self-end mt-auto " onClick={handShowCliente}>Ver mas</button>
             </div>
             {showCliente && (
-                <VerCliente cliente={cliente} closeComponent={handShowCliente} />
+                <VerCliente cliente={cliente} closeComponent={handShowCliente} setReload={setReload} />
             )}
         </>
     );
