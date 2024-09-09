@@ -155,7 +155,7 @@ const CrearCategoria: FC<CrearCategoriaProps> = ({ closeComponent, setReload, ca
                                             <>
                                                 <div className="" >
                                                     <div className="text-left w-full pl-5">Categoria:</div>
-                                                    <input name="padre" value={categoria.padre} onChange={(e) => setCategoria({ ...categoria, padre: e.target.value })} maxLength={20} id="padre" type="text" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" placeholder="Categoria" ></input>
+                                                    <input name="padre" value={categoria.padre} onChange={(e) => setCategoria({ ...categoria, padre: e.target.value })} maxLength={20} id="padre1" type="text" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" placeholder="Categoria" ></input>
                                                 </div>
                                                 <div className="flex-row justify-center w-full flex items-center pt-2 ">
                                                     <button className="justify-center flex items-center p-1 bg-lime-400 hover:bg-lime-500 rounded-lg" onClick={handleSave}>

@@ -60,9 +60,9 @@ const Categorias: FC<CategoriasProps> = ({ setReload, setSearchQuery, categorias
                     <button className="bg-purple-700 hover:bg-purple-900 text-white rounded-lg p-2 w-full" onClick={handleAddCategoria}>Agregar Categoria</button>
                 </div>
                 <div className="flex flex-col p-5 justify-between">
-                    <div className="flex w-full justify-center">
+                    <div className="flex w-full justify-between">
                         <h1 className="text-center text-2xl font-bold">Categorias</h1>
-                        <button className={`w-8 text-2xl rounded-full border-2 text-center border-purple-600 duration-500 ${deploy ? "-rotate-90" : ""} `} title="deploy" onClick={()=> setDeploy(!deploy)}><Icon icon="material-symbols:arrow-back-ios-new" /></button>
+                        <button className={` w-8 text-2xl rounded-full border-2 text-center border-purple-600 duration-500 ${deploy ? "-rotate-90" : ""} `} title="deploy" onClick={()=> setDeploy(!deploy)}><Icon icon="material-symbols:arrow-back-ios-new" /></button>
                     </div>
                     <div className={`${deploy ? "" : "hidden"}`}>
                         <button className="p-2 mb-1 mt-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md" onClick={() => {setSearchQuery(""); setDeploy(!deploy)}}>Todas</button>

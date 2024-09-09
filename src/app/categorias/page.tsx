@@ -78,7 +78,7 @@ export default function Home() {
                     </thead>
                     <tbody>
                         {filteredCategorias.map((categoria, index) => (
-                            <ListarCategoria key={categoria.id} categoria={categoria} index={index} />
+                            <ListarCategoria key={categoria.id} categoria={categoria} index={index} setReload={handleReload} categorias={categorias} />
                         ))}
                     </tbody>
                 </table>
