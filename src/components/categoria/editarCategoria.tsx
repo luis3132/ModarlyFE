@@ -69,7 +69,6 @@ const EditarCategoria: FC<editCategoriaProps> = ({ categoria, setReload, closeCo
             });
             const data = await res.json();
             console.log(data);
-            setReload();
         } catch (e) {
             console.log(e);
         }
