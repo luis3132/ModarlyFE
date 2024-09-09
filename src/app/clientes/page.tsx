@@ -12,6 +12,7 @@ interface Cliente {
     fijo: string;
     descripcion: string;
     mayorista: boolean;
+    fechaCreacion: string;
 }
 
 export default function Home() {
@@ -46,7 +47,8 @@ export default function Home() {
     const filteredClientes = clientes.filter(cliente =>
         cliente.nombres.toLowerCase().includes(searchQuery.toLowerCase()) ||
         cliente.apellidos.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        cliente.cedula.includes(searchQuery)
+        cliente.cedula.includes(searchQuery) ||
+        cliente.mayorista.toString().includes(searchQuery)
     );
 
     const handleReload = () => {

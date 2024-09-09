@@ -31,6 +31,12 @@ const Clientes: FC<ClientesProps> = ({ setSearchQuery, setReload }) => {
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
+                    <div className="flex flex-col p-5 justify-between">
+                        <h1 className="text-center text-2xl font-bold">Clientes</h1>
+                        <button className="p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md" onClick={() => setSearchQuery("")}>Todos</button>
+                        <button className="p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md" onClick={() => setSearchQuery("true")}>Mayoristas</button>
+                        <button className="p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md" onClick={() => setSearchQuery("false")}>Minoristas</button>
+                    </div>
                 </div>
             </div>
             <div className="w-full shadow-lg shadow-gray-600 md:hidden overflow-y-scroll custom-scrollbar bg-purple-200">
