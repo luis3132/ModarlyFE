@@ -21,6 +21,7 @@ const Categorias: FC<CategoriasProps> = ({ setReload, setSearchQuery, categorias
 
     const [showAddCategoria, setShowAddCategoria] = useState(false);
     const [deploy, setDeploy] = useState(false);
+    const [activeButton, setActiveButton] = useState("");
 
     const handleAddCategoria = () => {
         setShowAddCategoria(!showAddCategoria);
@@ -30,17 +31,27 @@ const Categorias: FC<CategoriasProps> = ({ setReload, setSearchQuery, categorias
         index === self.findIndex((c) => c.padre === categoria.padre)
     );
 
+    const handleButtonClick = (categoria: string) => {
+        if (categoria != "e") {
+            setSearchQuery(categoria); // Update search query
+            setActiveButton(categoria); // Update active button state
+        } else {
+            setSearchQuery(""); // Update search query
+            setActiveButton("e"); // Update active button state
+        }
+    }
+
     return (
         <>
-            <div className="w-64 shadow-lg shadow-gray-600 max-md:hidden max-h-screen overflow-y-scroll custom-scrollbar bg-purple-200">
+            <div className="min-w-64 shadow-lg shadow-gray-600 max-md:hidden max-h-screen overflow-y-scroll custom-scrollbar bg-purple-200">
                 <div className="pr-5 pl-10 pt-11">
                     <button className="bg-purple-700 hover:bg-purple-900 text-white rounded-lg p-2 w-full" onClick={handleAddCategoria}>Agregar Categoria</button>
                 </div>
                 <div className="flex flex-col p-5 justify-between">
                     <h1 className="text-center text-2xl font-bold">Categorias</h1>
-                    <button className="p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md" onClick={() => setSearchQuery("")}>Todas</button>
+                    <button className={`p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md ${activeButton === "e" ? "bg-purple-500" : "bg-purple-300 hover:bg-purple-400"}`} onClick={() => handleButtonClick("e")}>Todas</button>
                     {uniqueCategorias.map((categoria) => (
-                        <button className="p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md" key={categoria.id} onClick={() => setSearchQuery(`${categoria.padre}`)}>{categoria.padre}</button>
+                        <button className={`p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md ${activeButton === categoria.padre ? "bg-purple-500" : "bg-purple-300 hover:bg-purple-400"}`} key={categoria.id} onClick={() => handleButtonClick(`${categoria.padre}`)}>{categoria.padre}</button>
                     ))}
                     <div className={`p-10 flex-grow h-20 justify-center flex items-center ${loading ? "" : "hidden"}`}>
                         <div className="spinner">
@@ -65,9 +76,9 @@ const Categorias: FC<CategoriasProps> = ({ setReload, setSearchQuery, categorias
                         <button className={` w-8 text-2xl rounded-full border-2 text-center border-purple-600 duration-500 ${deploy ? "-rotate-90" : ""} `} title="deploy" onClick={()=> setDeploy(!deploy)}><Icon icon="material-symbols:arrow-back-ios-new" /></button>
                     </div>
                     <div className={`${deploy ? "" : "hidden"}`}>
-                        <button className="p-2 mb-1 mt-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md" onClick={() => {setSearchQuery(""); setDeploy(!deploy)}}>Todas</button>
+                        <button className="p-2 mb-1 mt-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md" onClick={() => {handleButtonClick("e"); setDeploy(!deploy)}}>Todas</button>
                         {uniqueCategorias.map((categoria) => (
-                            <button className="p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md" key={categoria.id} onClick={() => {setSearchQuery(`${categoria.padre}`); setDeploy(!deploy);}}>{categoria.padre}</button>
+                            <button className={`p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md ${activeButton === categoria.padre ? "bg-purple-500" : "bg-purple-300 hover:bg-purple-400"}`} key={categoria.id} onClick={() => {handleButtonClick(`${categoria.padre}`); setDeploy(!deploy);}}>{categoria.padre}</button>
                         ))}
                     </div>
                     <div className={`p-10 flex-grow h-20 justify-center flex items-center ${loading ? "" : "hidden"}`}>

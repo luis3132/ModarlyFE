@@ -49,12 +49,10 @@ export default function Home() {
         setReload(!reload);
     }
 
-    console.log(reload);
-
     return (
         <>
             <Categorias loading={loading} error={error} setReload={handleReload} setSearchQuery={setSearchQueryPadre} categorias={categorias} />
-            <div className={`p-5 flex-grow h-screen justify-center flex overflow-y-scroll ${!loading ? "" : "hidden"}`}>
+            <div className={`p-5 flex-grow h-screen justify-center flex overflow-y-scroll custom-scrollbar ${!loading ? "" : "hidden"}`}>
                 <div className="w-full">
                 <div className="p-5">
                     <div className="relative">

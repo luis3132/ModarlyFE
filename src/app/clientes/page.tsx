@@ -55,8 +55,6 @@ export default function Home() {
         setReload(!reload);
     }
 
-    console.log(reload);
-
     return (
         <>
             <Clientes setSearchQuery={setSearchQuery} setReload={handleReload} />

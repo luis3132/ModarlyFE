@@ -10,9 +10,20 @@ interface ClientesProps {
 const Clientes: FC<ClientesProps> = ({ setSearchQuery, setReload }) => {
 
     const [showAddCliente, setShowAddCliente] = useState(false);
+    const [activeButton, setActiveButton] = useState("");
 
     const handleAddCliente = () => {
         setShowAddCliente(!showAddCliente);
+    }
+
+    const handleButtonClick = (cliente: string) => {
+        if (cliente != "e") {
+            setSearchQuery(cliente); // Update search query
+            setActiveButton(cliente); // Update active button state
+        } else {
+            setSearchQuery(""); // Update search query
+            setActiveButton("e"); // Update active button state
+        }
     }
 
     return (
@@ -33,9 +44,9 @@ const Clientes: FC<ClientesProps> = ({ setSearchQuery, setReload }) => {
                     </div>
                     <div className="flex flex-col p-5 justify-between">
                         <h1 className="text-center text-2xl font-bold">Clientes</h1>
-                        <button className="p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md" onClick={() => setSearchQuery("")}>Todos</button>
-                        <button className="p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md" onClick={() => setSearchQuery("true")}>Mayoristas</button>
-                        <button className="p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md" onClick={() => setSearchQuery("false")}>Minoristas</button>
+                        <button className={`p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md ${activeButton === "e" ? "bg-purple-500" : "bg-purple-300 hover:bg-purple-400"}`} onClick={() => handleButtonClick("e")}>Todos</button>
+                        <button className={`p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md ${activeButton === "true" ? "bg-purple-500" : "bg-purple-300 hover:bg-purple-400"}`} onClick={() => handleButtonClick("true")}>Mayoristas</button>
+                        <button className={`p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md ${activeButton === "false" ? "bg-purple-500" : "bg-purple-300 hover:bg-purple-400"}`} onClick={() => handleButtonClick("false")}>Minoristas</button>
                     </div>
                 </div>
             </div>
