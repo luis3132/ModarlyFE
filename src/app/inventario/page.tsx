@@ -3,6 +3,7 @@
 import Inventario from "@/components/sidecomponents/inventario";
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import ListarInventario from "@/components/inventario/listarInventario";
 
 interface Categoria {
     id: number;
@@ -105,12 +106,10 @@ export default function Home() {
         )
     );
 
-    console.log(filteredArticulos);
-
     return (
         <>
             <Inventario categorias={categorias} loading={loadingCategorias} error={errorCategorias} setSearchQuery={setSearchQueryPadre} setSearchQueryA={setSearchQueryArticulo} />
-            <div className={`p-5 flex-grow h-screen justify-center overflow-y-scroll custom-scrollbar ${!loading ? "" : "hidden"}`}>
+            <div className={`p-5 flex-grow h-full justify-center overflow-y-scroll custom-scrollbar ${!loading ? "" : "hidden"} ${!error ? "" : "hidden"} `}>
                 <div className="w-full h-min">
                     <div className="p-5">
                         <div className="relative">
@@ -124,16 +123,9 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-wrap flex-grow">
+                <div className="flex flex-wrap w-full px-5">
                     {filteredArticulos.map((articulo, index) => (
-                        <div key={articulo.id} className="w-full p-5 bg-purple-300 hover:bg-purple-400 rounded-lg mb-5">
-                            <h1 className="text-2xl font-bold">{articulo.nombre}</h1>
-                            <p>{articulo.descripcion}</p>
-                            <p>{articulo.precioDetal}</p>
-                            <p>{articulo.precioMayorista}</p>
-                            <p>{articulo.categorias.map(categoria => categoria.padre + " " + categoria.hija).join(", ")}</p>
-                            <p>{articulo.tallas.map(talla => talla.talla + " " + talla.cantidad).join(", ")}</p>
-                        </div>
+                        <ListarInventario articulo={articulo} key={articulo.id} />
                     ))}
                 </div>
             </div>

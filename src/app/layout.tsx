@@ -17,7 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} flex max-md:flex-col`}>
+      <head>
+        <link rel="icon" href="/hello-kitty-pictures-xeulf538v4jogtue.jpg" />
+      </head>
+      <body className={`${inter.className} h-dvh flex max-md:flex-col`}>
         <Sidebar />
         {children}
       </body>

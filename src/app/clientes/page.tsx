@@ -58,7 +58,7 @@ export default function Home() {
     return (
         <>
             <Clientes setSearchQuery={setSearchQuery} setReload={handleReload} />
-            <div className={`p-10 flex-grow h-screen overflow-scroll custom-scrollbar flex flex-wrap ${loading ? "hidden" : ""} ${error && "hidden"}`}>
+            <div className={`p-10 flex-grow h-full overflow-scroll custom-scrollbar flex flex-wrap ${loading ? "hidden" : ""} ${error && "hidden"}`}>
                 {filteredClientes.map((cliente) => (
                     <ListarCliente cliente={cliente} key={cliente.cedula} setReload={handleReload} />
                 ))}

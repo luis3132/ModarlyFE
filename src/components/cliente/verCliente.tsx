@@ -135,7 +135,7 @@ const VerCliente: FC<ClientesProps> = ({ cliente, closeComponent, setReload }) =
                                     leave="ease-in duration-200"
                                     leaveFrom="opacity-100 scale-100"
                                     leaveTo="opacity-0 scale-95">
-                                    <div className={` absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${edit ? "xl:w-[30%]" : "xl:w-[40%]"} w-[80%] bg-white rounded-lg pb-1 `}>
+                                    <div className={` absolute max-h-dvh top-1/2 left-1/2 transform -translate-x-1/2 overflow-y-scroll custom-scrollbar -translate-y-1/2 ${edit ? "xl:w-[30%]" : "xl:w-[40%]"} w-[80%] bg-white rounded-lg pb-1 `}>
                                         {edit ? (<>
                                             <button title="close" className=" float-right pr-1 pt-1" onClick={closeComponent}><Icon icon="material-symbols:close" width={30} height={30} /></button>
                                             <div className="text-2xl pt-3 pl-10" >{cliente1.nombres} {cliente1.apellidos}</div>
