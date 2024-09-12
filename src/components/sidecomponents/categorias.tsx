@@ -43,7 +43,7 @@ const Categorias: FC<CategoriasProps> = ({ setReload, setSearchQuery, categorias
 
     return (
         <>
-            <div className="min-w-64 shadow-lg shadow-gray-600 max-md:hidden max-h-screen overflow-y-scroll custom-scrollbar bg-purple-200">
+            <div className="min-w-64 shadow-lg shadow-gray-600 max-md:hidden max-h-dvh overflow-y-scroll custom-scrollbar bg-purple-200">
                 <div className="pr-5 pl-10 pt-11">
                     <button className="bg-purple-700 hover:bg-purple-900 text-white rounded-lg p-2 w-full" onClick={handleAddCategoria}>Agregar Categoria</button>
                 </div>
@@ -66,7 +66,7 @@ const Categorias: FC<CategoriasProps> = ({ setReload, setSearchQuery, categorias
                     </div>
                 </div>
             </div>
-            <div className="w-full shadow-lg shadow-gray-600 md:hidden max-h-screen overflow-y-scroll custom-scrollbar bg-purple-200">
+            <div className={`w-full shadow-lg shadow-gray-600 md:hidden ${loading ? "h-96" : "h-48"} ${deploy ? "duration-500 h-80" : "duration-500"} overflow-y-scroll custom-scrollbar bg-purple-200`}>
                 <div className="px-5 pt-5">
                     <button className="bg-purple-700 hover:bg-purple-900 text-white rounded-lg p-2 w-full" onClick={handleAddCategoria}>Agregar Categoria</button>
                 </div>

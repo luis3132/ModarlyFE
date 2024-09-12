@@ -137,7 +137,7 @@ const CrearCategoria: FC<CrearCategoriaProps> = ({ closeComponent, setReload, ca
                                     leave="ease-in duration-200"
                                     leaveFrom="opacity-100 scale-100"
                                     leaveTo="opacity-0 scale-95">
-                                    <div className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-[30%] w-[80%] bg-white rounded-lg pb-1  ">
+                                    <div className=" absolute top-1/2 max-h-dvh overflow-y-scroll custom-scrollbar left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-[30%] w-[80%] bg-white rounded-lg pb-1  ">
                                         <button title="close" className=" float-right pr-1 pt-1" onClick={closeComponent}><Icon icon="material-symbols:close" width={30} height={30} /></button>
                                         <div className="text-2xl pt-3 pl-10" >Anadir Categoria</div>
                                         <div className="flex-row justify-center w-full flex items-center pt-2 mb-2 ">

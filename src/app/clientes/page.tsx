@@ -16,11 +16,12 @@ interface Cliente {
 }
 
 export default function Home() {
+    // States
     const [searchQuery, setSearchQuery] = useState('');
     const [clientes, setClientes] = useState<Cliente[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
+    // Fetch the clients
     const [reload, setReload] = useState(false);
 
     useEffect(() => {
@@ -50,7 +51,7 @@ export default function Home() {
         cliente.cedula.includes(searchQuery) ||
         cliente.mayorista.toString().includes(searchQuery)
     );
-
+    // Reload the clients
     const handleReload = () => {
         setReload(!reload);
     }

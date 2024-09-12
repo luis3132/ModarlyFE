@@ -97,7 +97,7 @@ export default function Home() {
             setError(errorArticulos);
         }
     }, [errorCategorias, errorArticulos]);
-
+    // function to filter the articles
     const filteredArticulos = articulos.filter(articulo =>
         articulo.nombre.toLowerCase().includes(searchQueryArticulo.toLowerCase()) &&
         articulo.categorias.some(categoria =>
@@ -108,7 +108,7 @@ export default function Home() {
 
     return (
         <>
-            <Inventario categorias={categorias} loading={loadingCategorias} error={errorCategorias} setSearchQuery={setSearchQueryPadre} setSearchQueryA={setSearchQueryArticulo} />
+            <Inventario categorias={categorias} loading={loadingCategorias} error={errorCategorias} setSearchQuery={setSearchQueryPadre} setSearchQueryA={setSearchQueryHija} />
             <div className={`p-5 flex-grow h-full justify-center overflow-y-scroll custom-scrollbar ${!loading ? "" : "hidden"} ${!error ? "" : "hidden"} `}>
                 <div className="w-full h-min">
                     <div className="p-5">
@@ -116,9 +116,9 @@ export default function Home() {
                             <Icon icon="mdi:magnify" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white text-xl" />
                             <input
                                 type="text"
-                                placeholder="Buscar SubCategoria"
+                                placeholder="Buscar Producto"
                                 className="w-full bg-purple-700 hover:bg-purple-900 text-white p-2 pl-10 rounded-lg"
-                                onChange={(e) => setSearchQueryHija(e.target.value)}
+                                onChange={(e) => setSearchQueryArticulo(e.target.value)}
                             />
                         </div>
                     </div>
