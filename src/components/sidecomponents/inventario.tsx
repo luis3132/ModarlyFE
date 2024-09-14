@@ -14,9 +14,10 @@ interface inventarioprops {
     error: string | null;
     setSearchQuery: (query: string) => void;
     setSearchQueryA: (query: string) => void;
+    reload: () => void;
 }
 
-const Inventario: FC<inventarioprops> = ({ categorias, loading, error, setSearchQuery, setSearchQueryA }) => {
+const Inventario: FC<inventarioprops> = ({ categorias, loading, error, setSearchQuery, setSearchQueryA, reload }) => {
 
     const [deploy, setDeploy] = useState(false);
     const [activeButton, setActiveButton] = useState("");
@@ -114,7 +115,7 @@ const Inventario: FC<inventarioprops> = ({ categorias, loading, error, setSearch
                 </div>
             </div>
             {showAddProducto && (
-                <CrearInventario categorias={categorias} closeComponent={handleAddProducto} />
+                <CrearInventario reload={reload} categorias={categorias} closeComponent={handleAddProducto} />
             )}
         </>
     )

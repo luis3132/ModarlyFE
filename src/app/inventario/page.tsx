@@ -41,6 +41,7 @@ export default function Home() {
     const [searchQueryPadre, setSearchQueryPadre] = useState('');
     const [searchQueryHija, setSearchQueryHija] = useState('');
     const [searchQueryArticulo, setSearchQueryArticulo] = useState('');
+    const [reload, setReload] = useState(false);
     // function to list the categories
     useEffect(() => {
         const fetchCategorias = async () => {
@@ -80,7 +81,7 @@ export default function Home() {
             }
         }
         fetchArticulos();
-    }, [categorias]);
+    }, [categorias, reload]);
     // function to finish loading
     useEffect(() => {
         if (!loadingArticulos && !loadingCategorias) {
@@ -105,10 +106,14 @@ export default function Home() {
             (categoria.hija?.toLowerCase() ?? '').includes(searchQueryHija.toLowerCase())
         )
     );
+    // function to reload the articles
+    const reloadArticulos = () => {
+        setReload(!reload);
+    }
 
     return (
         <>
-            <Inventario categorias={categorias} loading={loadingCategorias} error={errorCategorias} setSearchQuery={setSearchQueryPadre} setSearchQueryA={setSearchQueryHija} />
+            <Inventario categorias={categorias} loading={loadingCategorias} error={errorCategorias} setSearchQuery={setSearchQueryPadre} setSearchQueryA={setSearchQueryHija} reload={reloadArticulos} />
             <div className={`p-5 flex-grow h-full justify-center overflow-y-scroll custom-scrollbar ${!loading ? "" : "hidden"} ${!error ? "" : "hidden"} `}>
                 <div className="w-full h-min">
                     <div className="p-5">

@@ -1,11 +1,12 @@
 "use client";
 
 import { Dialog, Transition } from '@headlessui/react';
-import { ChangeEvent, FC, Fragment, useState } from 'react';
+import { ChangeEvent, FC, Fragment, use, useEffect, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Swal from 'sweetalert2';
 import CategoriaSeleccionada from './categoriasSeleccionadas';
 import SubcategoriaSeleccionar from './subcategoriasSeleccionar';
+import CrearTalla from './crearTalla';
 
 interface Categoria {
     id: number;
@@ -37,16 +38,17 @@ interface ArticuloCreado {
     descripcion: string;
     precioDetal: number;
     precioMayorista: number;
-    categorias: Categoria[];
-    tallas: Talla[];
+    articate: Categoria[] | null;
+    tallas: Talla[] | null;
 }
 
 interface CrearInventarioProps {
     closeComponent: () => void;
     categorias: Categoria[];
+    reload: () => void;
 }
 
-const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias }) => {
+const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias, reload }) => {
 
     const [articulo, setArticulo] = useState<Articulo>({
         nombre: "",
@@ -55,19 +57,20 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias 
         precioMayorista: 0
     });
 
-    const [articuloCreado, setArticuloCreado] = useState<ArticuloCreado>();
-    const [categoriapadre, setCategoriaPadre] = useState("");
+    const [articuloCreado, setArticuloCreado] = useState<ArticuloCreado | null>(null);
     const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState<Categoria[]>([]);
     const [categoria, setCategoria] = useState<Categoria>({
         id: 0,
         padre: "",
         hija: ""
     });
-    const [Articate, setArticate] = useState<Articate>({
-        articulo: articuloCreado ? articuloCreado.id : 0,
-        categoria: 0
-    });
     const [articateList, setArticateList] = useState<Articate[]>([]);
+    const [talla, setTalla] = useState<Talla>({
+        articulo: 0,
+        talla: "",
+        cantidad: 0
+    });
+    const [tallaList, setTallaList] = useState<Talla[]>([]);
     // Function to close the modal
     const [isOpen, setIsOpen] = useState(true);
     const closeModal = () => {
@@ -146,6 +149,145 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias 
     const eliminarCategoria = (id: number) => {
         setCategoriasSeleccionadas(categoriasSeleccionadas.filter(c => c.id !== id));
     }
+    // Function to handle the talla save
+    const handleTallaSave = () => {
+        if (talla.talla === "" || talla.cantidad === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Por favor llene los campos de talla!',
+            });
+        } else {
+            setTallaList([...tallaList, talla]);
+            setTalla({
+                articulo: 0,
+                talla: "",
+                cantidad: 0
+            });
+        }
+    }
+    // Function to handle the talla change
+    const handleTallaChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setTalla({
+            ...talla, [e.target.name]: e.target.value
+        });
+    }
+    // Function to eliminate a talla selected
+    const eliminarTalla = (index: number) => {
+        setTallaList(tallaList.filter((t, i) => i !== index));
+    }
+    // Function to save the articate
+    const articateSave = () => {
+        const newArticateList = categoriasSeleccionadas.map((c, i) => ({
+            articulo: articuloCreado ? articuloCreado.id : 0,
+            categoria: c.id
+        }));
+        setArticateList(newArticateList);
+    }
+    // Function to update the talla list
+    const updateTallaList = () => {
+        const newTallaList = tallaList.map((t, i) => ({
+            ...t, articulo: articuloCreado ? articuloCreado.id : 0
+        }));
+        setTallaList(newTallaList);
+    }
+    // Function to save the article
+    const handleArticuloSave = async () => {
+        if (articulo.nombre === "" || articulo.descripcion === "" || articulo.precioDetal === 0 || articulo.precioMayorista === 0 || categoriasSeleccionadas.length === 0 || tallaList.length === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Por favor llene los campos de articulo!',
+            });
+        } else {
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/articulo/new`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(articulo)
+                });
+                const data = await res.json();
+                setArticuloCreado(data);
+            } catch (e) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Error al crear el articulo!',
+                });
+            }
+        }
+    }
+    // Function to update the articateList and tallaList
+    useEffect(() => {
+        if (articuloCreado?.id) {
+            articateSave();
+            updateTallaList();
+        }
+    }, [articuloCreado]);
+    // Function to save the articate and talla
+    useEffect(() => {
+        if (articuloCreado?.id && articateList.length > 0 && tallaList.length > 0) {
+            const saveArticateTalla = async () => {
+                try {
+                    const res1 = fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/articate/new/list`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(articateList)
+                    });
+                    const res2 = fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/talla/new/list`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(tallaList)
+                    });
+                    const res1Result = await res1;
+                    const res2Result = await res2;
+                    if (res1Result.ok && res2Result.ok) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Articulo creado!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            reload();
+                            closeComponent();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Error al crear el articulo!',
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Error al crear el articulo!',
+                    });
+                }
+            }
+            console.log(articateList);
+            console.log(tallaList);
+            console.log(articuloCreado);
+            saveArticateTalla();
+            setCategoriasSeleccionadas([]);
+            setTallaList([]);
+            setArticuloCreado(null);
+            setArticateList([]);
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Error al crear el articulo!',
+            });
+        }
+    }, [articateList, tallaList]);
 
     return (
         <>
@@ -172,9 +314,13 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias 
                                     leave="ease-in duration-200"
                                     leaveFrom="opacity-100 scale-100"
                                     leaveTo="opacity-0 scale-95">
-                                    <div className=" absolute max-h-dvh overflow-y-scroll custom-scrollbar top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-[50%] w-[80%] bg-white rounded-lg pb-1  ">
+                                    <div className=" absolute max-h-[80%] overflow-y-scroll custom-scrollbar top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-[50%] w-[80%] bg-white rounded-lg pb-1  ">
                                         <button title="close" className=" float-right pr-1 pt-1" onClick={closeComponent}><Icon icon="material-symbols:close" width={30} height={30} /></button>
                                         <div className="text-2xl pt-3 pl-10" >Anadir Producto</div>
+                                        <div className="w-full flex justify-center items-center">
+                                            <img className="" src="/hello-kitty-pictures-xeulf538v4jogtue.jpg" alt="user" width={250} />
+                                        </div>
+                                        <input title="archivo" type="file" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" />
                                         <div className="flex max-lg:flex-col w-full">
                                             <div className="w-full">
                                                 <div className="" >
@@ -223,14 +369,25 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias 
                                                 </div>
                                                 <div className="text-left w-full pl-5">Tallas:</div>
                                                 <div className="w-full justify-center px-10">
-                                                    <div className="bg-black bg-opacity-10 h-20 overflow-y-scroll custom-scrollbar rounded-lg w-full justify-center items-center ">
-                                                        XD
+                                                    <div className="bg-black bg-opacity-10 h-40 overflow-y-scroll custom-scrollbar rounded-lg w-full justify-center items-center ">
+                                                        <table className={`justify-center items-center w-full`}>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th className="p-1">Talla</th>
+                                                                    <th className="p-1">Cantidad</th>
+                                                                    <th className="p-1">Accion</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <CrearTalla tallaList={tallaList} setTallaList={handleTallaSave} talla={talla} setTalla={handleTallaChange} eliminarTalla={eliminarTalla} />
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="flex-row justify-center w-full flex items-center pt-2 ">
-                                            <button className="justify-center flex items-center p-1 bg-lime-400 hover:bg-lime-500 rounded-lg" >
+                                        <div className="flex-row justify-center w-full flex items-center pt-2 pb-2 ">
+                                            <button className="justify-center flex items-center p-1 bg-lime-400 hover:bg-lime-500 rounded-lg" onClick={handleArticuloSave} >
                                                 <Icon icon="ri:save-line" />
                                                 Guardar
                                             </button>
