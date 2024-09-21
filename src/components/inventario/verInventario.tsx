@@ -364,7 +364,7 @@ const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categ
     // Function to save article
     const updateArticle = () => {
         handleSaving(true);
-        if (articulo1.id === articulo.id && articulo1.nombre === articulo.nombre && articulo1.descripcion === articulo.descripcion && articulo1.precioDetal === articulo.precioDetal && articulo1.precioMayorista === articulo.precioMayorista && categoriasNuevas.length === 0 && borrarCategorias.length === 0 && tallasNuevas.length === 0 && editarTallas.length === 0 && borrarTallas.length === 0) {
+        if (articulo1.nombre === articulo.nombre && articulo1.descripcion === articulo.descripcion && articulo1.precioDetal === articulo.precioDetal && articulo1.precioMayorista === articulo.precioMayorista && categoriasNuevas.length === 0 && borrarCategorias.length === 0 && tallasNuevas.length === 0 && editarTallas.length === 0 && borrarTallas.length === 0) {
             handleSaving(false);
             Swal.fire({
                 icon: 'info',
@@ -372,7 +372,7 @@ const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categ
                 text: 'No hay cambios!',
             });
         } else {
-            if (articulo1.id !== articulo.id && articulo1.nombre !== articulo.nombre && articulo1.descripcion !== articulo.descripcion && articulo1.precioDetal !== articulo.precioDetal && articulo1.precioMayorista !== articulo.precioMayorista) {
+            if (articulo1.nombre !== articulo.nombre || articulo1.descripcion !== articulo.descripcion || articulo1.precioDetal !== articulo.precioDetal || articulo1.precioMayorista !== articulo.precioMayorista) {
                 saveArticle();
             }
             if (categoriasNuevas.length !== 0) {
