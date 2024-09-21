@@ -19,6 +19,12 @@ interface Talla {
     cantidad: number;
 }
 
+interface TallaNueva {
+    articulo: number;
+    talla: string;
+    cantidad: number;
+}
+
 interface Articulo {
     id: number;
     nombre: string;
@@ -27,6 +33,16 @@ interface Articulo {
     precioMayorista: number;
     categorias: Categoria[];
     tallas: Talla[];
+}
+
+interface ArticuloResponse {
+    id: number;
+    nombre: string;
+    descripcion: string;
+    precioDetal: number;
+    precioMayorista: number;
+    categorias: Categoria[] | null;
+    tallas: Talla[] | null;
 }
 
 interface Articate {
@@ -49,7 +65,7 @@ interface VerInventarioProps {
     reload: () => void;
 }
 
-const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categorias }) => {
+const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categorias, reload }) => {
     // Function to close the modal
     const [isOpen, setIsOpen] = useState(true);
     const closeModal = () => {
@@ -57,10 +73,23 @@ const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categ
         closeComponent();
     };
 
+    // Response
+    const [ok, setOk] = useState(true);
+    const [articuloResponse, setArticuloResponse] = useState<ArticuloResponse | null>(null)
+    const [categoriaResponse, setCategoriaResponse] = useState<Articate[] | null>(null);
+    const [borrarCategoriasResponse, setBorrarCategoriasResponse] = useState<boolean[] | null>(null);
+    const [tallaResponse, setTallaResponse] = useState<Talla[] | null>(null);
+    const [borrarTallaResponse, setBorrarTallaResponse] = useState<boolean[] | null>(null);
+    const [editarTallaResponse, setEditarTallaResponse] = useState<Talla[] | null>(null);
+
     // Function to edit the data
     const [edit, setEdit] = useState(false);
     const handleEdit = () => {
         setEdit(!edit);
+    }
+    const [saving, setSaving] = useState(false);
+    const handleSaving = (e: boolean) => {
+        setSaving(e);
     }
 
 
@@ -82,23 +111,17 @@ const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categ
         articulo: articulo.id,
         categoria: 0
     });
-    const [talla, setTalla] = useState<Talla>({
-        id: 0,
-        articulo: articulo.id,
-        talla: "",
-        cantidad: 0
-    });
 
 
 
     // Categories for this Article
     const [articuloCategorias, setArticuloCategorias] = useState<Categoria[]>(articulo.categorias); // Actual categories for this Article
-    const [categoriasNuevas, setCategoriasNuevas] = useState<Categoria[]>([]); // New categories
+    const [categoriasNuevas, setCategoriasNuevas] = useState<Articate[]>([]); // New categories
     const [borrarCategorias, setBorrarCategorias] = useState<Articate[]>([]); // Delete the already saved categories
 
     // Sizes for this Article
     const [articuloTallas, setArticuloTallas] = useState<Talla[]>(articulo.tallas); // Actual sizes for this Article
-    const [tallasNuevas, setTallasNuevas] = useState<Talla[]>([]); // New sizes
+    const [tallasNuevas, setTallasNuevas] = useState<TallaNueva[]>([]); // New sizes
     const [editarTallas, setEditarTallas] = useState<Talla[]>([]); // Edit the already saved sizes
     const [borrarTallas, setBorrarTallas] = useState<number[]>([]); // Delete the already saved sizes
 
@@ -118,17 +141,13 @@ const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categ
             padre: "",
             hija: ""
         });
-        setTalla({
-            id: 0,
-            articulo: articulo.id,
-            talla: "",
-            cantidad: 0
-        });
         setArticuloCategorias(articulo.categorias);
         setArticuloTallas(articulo.tallas);
         setBorrarCategorias([]);
         setBorrarTallas([]);
         setCategoriasNuevas([]);
+        setTallasNuevas([]);
+        setEditarTallas([]);
     }
 
 
@@ -146,7 +165,7 @@ const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categ
     const eliminarCategoria = (id: number) => {
         setArticate({ ...articate, categoria: id });  // Set the category to delete
         setArticuloCategorias(articuloCategorias.filter(c => c.id !== id)); // Remove the category from the list
-        setCategoriasNuevas(categoriasNuevas.filter(c => c.id !== id));  // Remove the category from the new categories
+        setCategoriasNuevas(categoriasNuevas.filter(c => c.categoria !== id));  // Remove the category from the new categories
     }
     // Function to delete a category from the list
     useEffect(() => {
@@ -159,7 +178,7 @@ const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categ
     }, [articate]);
 
 
-    
+
     // Function to handle the category change
     const handleCategoriaChange = (e: ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -198,7 +217,10 @@ const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categ
                 });
             } else {
                 setArticuloCategorias([...articuloCategorias, categoria]);
-                setCategoriasNuevas([...categoriasNuevas, categoria]);
+                setCategoriasNuevas([...categoriasNuevas, {
+                    articulo: articulo.id,
+                    categoria: categoria.id
+                }]);
                 setCategoria({
                     id: 0,
                     padre: categoria.padre,
@@ -227,48 +249,367 @@ const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categ
     );
 
 
-    // Function to handle the talla change
-    const handleTallaChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setTalla({
-            ...talla, [e.target.name]: e.target.value
-        });
-        console.log(talla);
+
+    // Tallas
+    // Function to handle the new talla
+    const handleTallasNuevas = (talla: Talla) => {
+        if (articuloTallas.map(t => t.talla === talla.talla).includes(true)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Talla ya Existe!',
+            });
+        } else {
+            setArticuloTallas([...articuloTallas, talla]);
+            setTallasNuevas([...tallasNuevas, {
+                articulo: talla.articulo,
+                talla: talla.talla,
+                cantidad: talla.cantidad
+            }]);
+        }
     }
-
-
-    
     // Function to delete a talla
-    const eliminarTalla = (id: number) => {
-        setArticuloTallas(articuloTallas.filter(t => t.id !== id));
-        setTallasNuevas(tallasNuevas.filter(t => t.id !== id));
+    const eliminarTalla = (talla: Talla) => {
+        setArticuloTallas(articuloTallas.filter(t => t.id !== talla.id && t.talla !== talla.talla));
+        setTallasNuevas(tallasNuevas.filter(t => t.talla !== talla.talla));
+        if (talla.id !== 9999) {
+            setBorrarTallas([...borrarTallas, talla.id]);
+        }
     }
-    // Function to delete a talla from the list
-    useEffect(() => {
-        if (talla.id !== 0) {
-            if (articulo.tallas.map(t => t.id === talla.id).includes(true)) {
-                setBorrarTallas([...borrarTallas, talla.id]);
+    // Function to edit a talla
+    const editarTalla = (talla: Talla) => {
+        if (talla.id === 9999) {
+            setArticuloTallas(articuloTallas.map(t =>
+                t.id === 9999 ? talla : t
+            ));
+            setTallasNuevas(tallasNuevas.map(t =>
+                t.talla === talla.talla ? {
+                    articulo: talla.articulo,
+                    talla: talla.talla,
+                    cantidad: talla.cantidad
+                } : t
+            ));
+        } else {
+            setArticuloTallas(articuloTallas.map(t =>
+                t.id === talla.id ? talla : t
+            ));
+            if (editarTallas.map(t => t.id === talla.id).includes(true)) {
+                setEditarTallas(editarTallas.map(t =>
+                    t.id === talla.id ? talla : t
+                ));
+            } else {
+                setEditarTallas([...editarTallas, talla]);
             }
-            setTalla({
-                id: 0,
-                articulo: articulo.id,
-                talla: "",
-                cantidad: 0
+        }
+    }
+
+
+
+    // Eliminate Article
+    // Function to eliminate the article
+    const handleDelete = () => {
+        handleSaving(true);
+        Swal.fire({
+            title: 'Estas seguro?',
+            text: "No podras revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Si, Eliminar!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteArticle();
+            }
+        });
+    }
+    const deleteArticle = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/articulo/delete/${articulo.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.ok) {
+                handleSaving(false);
+                reload();
+                Swal.fire(
+                    'Eliminado!',
+                    'El articulo ha sido eliminado.',
+                    'success'
+                );
+                closeModal();
+            } else {
+                handleSaving(false);
+                const data = await response.json();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: data.detail,
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Algo salio mal!',
             });
         }
-    }, [talla]);
-
-    const setTallaEditable = (t: Talla) => {
-        setTalla({
-            id: t.id,
-            articulo: t.articulo,
-            talla: t.talla,
-            cantidad: t.cantidad
-        });
     }
 
-    // Function to add a talla
-    const handleTallaSave = (talla: string, cantidad: number) => {
+
+
+    // Save changes
+    // Function to save article
+    const updateArticle = () => {
+        handleSaving(true);
+        if (articulo1.id === articulo.id && articulo1.nombre === articulo.nombre && articulo1.descripcion === articulo.descripcion && articulo1.precioDetal === articulo.precioDetal && articulo1.precioMayorista === articulo.precioMayorista && categoriasNuevas.length === 0 && borrarCategorias.length === 0 && tallasNuevas.length === 0 && editarTallas.length === 0 && borrarTallas.length === 0) {
+            handleSaving(false);
+            Swal.fire({
+                icon: 'info',
+                title: 'Oops...',
+                text: 'No hay cambios!',
+            });
+        } else {
+            if (articulo1.id !== articulo.id && articulo1.nombre !== articulo.nombre && articulo1.descripcion !== articulo.descripcion && articulo1.precioDetal !== articulo.precioDetal && articulo1.precioMayorista !== articulo.precioMayorista) {
+                saveArticle();
+            }
+            if (categoriasNuevas.length !== 0) {
+                saveCategorias();
+            }
+            if (borrarCategorias.length !== 0) {
+                deleteCategorias();
+            }
+            if (tallasNuevas.length !== 0) {
+                saveTallas();
+            }
+            if (editarTallas.length !== 0) {
+                saveTallasEditadas();
+            }
+            if (borrarTallas.length !== 0) {
+                deleteTallas();
+            }
+        }
     }
+
+    // save article
+    const saveArticle = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/articulo/update`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(articulo1)
+            });
+            if (response.ok) {
+                setArticuloResponse(await response.json());
+            } else {
+                handleSaving(false);
+                const data = await response.json();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: data.detail,
+                });
+                setOk(false);
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Algo salio mal!',
+            });
+            setOk(false);
+        }
+    }
+
+    // save categories
+    const saveCategorias = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/articate/new/list`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(categoriasNuevas)
+            });
+            if (response.ok) {
+                setCategoriaResponse(await response.json());
+            } else {
+                handleSaving(false);
+                const data = await response.json();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: data.detail,
+                });
+                setOk(false);
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Algo salio mal!',
+            });
+            setOk(false);
+        }
+    }
+
+    // Delete categories
+    const deleteCategorias = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/articate/delete/list`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(borrarCategorias)
+            });
+            if (response.ok) {
+                setBorrarCategoriasResponse(await response.json());
+            } else {
+                handleSaving(false);
+                const data = await response.json();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: data.detail,
+                });
+                setOk(false);
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Algo salio mal!',
+            });
+            setOk(false);
+        }
+    }
+
+    // Add sizes
+    const saveTallas = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/talla/new/list`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(tallasNuevas)
+            });
+            if (response.ok) {
+                setTallaResponse(await response.json());
+            } else {
+                handleSaving(false);
+                const data = await response.json();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: data.detail,
+                });
+                setOk(false);
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Algo salio mal!',
+            });
+            setOk(false);
+        }
+    }
+
+    // Edit sizes
+    const saveTallasEditadas = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/talla/update`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(editarTallas)
+            });
+            if (response.ok) {
+                setEditarTallaResponse(await response.json());
+            } else {
+                handleSaving(false);
+                const data = await response.json();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: data.detail,
+                });
+                setOk(false);
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Algo salio mal!',
+            });
+            setOk(false);
+        }
+    }
+
+    // Delete sizes
+    const deleteTallas = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/talla/delete/list`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(borrarTallas)
+            });
+            if (response.ok) {
+                setBorrarTallaResponse(await response.json());
+            } else {
+                handleSaving(false);
+                const data = await response.json();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: data.detail,
+                });
+                setOk(false);
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Algo salio mal!',
+            });
+            setOk(false);
+        }
+    }
+
+    useEffect(() => {
+        if (articulo1.id === articulo.id && articulo1.nombre === articulo.nombre && articulo1.descripcion === articulo.descripcion && articulo1.precioDetal === articulo.precioDetal && articulo1.precioMayorista === articulo.precioMayorista && categoriasNuevas.length === 0 && borrarCategorias.length === 0 && tallasNuevas.length === 0 && editarTallas.length === 0 && borrarTallas.length === 0) {
+            reload();
+        } else {
+            if (ok) {
+                handleSaving(false);
+                reload();
+                Swal.fire(
+                    'Guardado!',
+                    'El articulo ha sido guardado.',
+                    'success'
+                );
+                closeModal();
+            } else {
+                handleSaving(false);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Algo salio mal!',
+                });
+            }
+        }
+    }, [articuloResponse, categoriaResponse, borrarCategoriasResponse, tallaResponse, borrarTallaResponse, editarTallaResponse]);
+
+
     return (
         <>
             <div className="w-full fixed inset-0 flex items-center justify-center backdrop-blur-sm z-10">
@@ -362,7 +703,7 @@ const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categ
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            <EditarTalla tallaEditable={talla} setTalla={setTallaEditable} changeTalla={handleTallaChange} articuloTalla={articuloTallas} />
+                                                                            <EditarTalla articuloTallas={articuloTallas} tallaNueva={handleTallasNuevas} borrarTallas={eliminarTalla} editarTalla={editarTalla} />
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
@@ -371,12 +712,12 @@ const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categ
                                                     </div>
                                                 </div>
                                                 <div className="flex-row justify-center w-full flex items-center py-2 ">
-                                                    <button className="justify-center flex items-center p-1 bg-red-500 hover:bg-red-600 rounded-lg" >
+                                                    <button className="justify-center flex items-center p-1 bg-red-500 hover:bg-red-600 rounded-lg" onClick={handleDelete} >
                                                         <Icon icon="material-symbols:delete-outline" />
                                                         Eliminar
                                                     </button>
                                                     <div className="w-[10%] "></div>
-                                                    <button className="justify-center flex items-center p-1 bg-lime-400 hover:bg-lime-500 rounded-lg" >
+                                                    <button className="justify-center flex items-center p-1 bg-lime-400 hover:bg-lime-500 rounded-lg" onClick={updateArticle} >
                                                         <Icon icon="ri:save-line" />
                                                         Guardar
                                                     </button>
@@ -475,6 +816,14 @@ const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categ
                     </Dialog>
                 </Transition>
             </div>
+            {saving && <div className="w-full fixed inset-0 flex items-center justify-center backdrop-blur-sm z-20">
+                <div className={`p-10 flex-grow h-screen justify-center flex items-center`}>
+                    <div className="spinner">
+                        <div className="double-bounce1"></div>
+                        <div className="double-bounce2"></div>
+                    </div>
+                </div>
+            </div>}
         </>
     )
 }

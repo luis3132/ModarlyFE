@@ -78,8 +78,8 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias,
         closeComponent();
     };
     const [saving, setSaving] = useState(false);
-    const handleSaving = () => {
-        setSaving(!saving);
+    const handleSaving = (e: boolean) => {
+        setSaving(e);
     }
     // Function to handle the article change
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -197,8 +197,9 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias,
     }
     // Function to save the article
     const handleArticuloSave = async () => {
+        handleSaving(true);
         if (articulo.nombre === "" || articulo.descripcion === "" || articulo.precioDetal === 0 || articulo.precioMayorista === 0 || categoriasSeleccionadas.length === 0 || tallaList.length === 0) {
-            handleSaving();
+            handleSaving(false);
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -253,7 +254,7 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias,
                     const res1Result = await res1;
                     const res2Result = await res2;
                     if (res1Result.ok && res2Result.ok) {
-                        handleSaving();
+                        handleSaving(false);
                         Swal.fire({
                             icon: 'success',
                             title: 'Articulo creado!',
@@ -380,7 +381,7 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias,
                                             </div>
                                         </div>
                                         <div className="flex-row justify-center w-full flex items-center pt-2 pb-2 ">
-                                            <button className="justify-center flex items-center p-1 bg-lime-400 hover:bg-lime-500 rounded-lg" onClick={() => { handleSaving(); handleArticuloSave(); }} >
+                                            <button className="justify-center flex items-center p-1 bg-lime-400 hover:bg-lime-500 rounded-lg" onClick={handleArticuloSave} >
                                                 <Icon icon="ri:save-line" />
                                                 Guardar
                                             </button>
