@@ -6,6 +6,13 @@ interface Talla {
     cantidad: number;
 }
 
+interface EditTalla {
+    id: number;
+    talla: string;
+    cantidad: number;
+    articulo: number;
+}
+
 interface Tallaprops {
     tallaList: Talla[];
     setTallaList: (talla: Talla[]) => void;
@@ -31,17 +38,21 @@ const CrearTalla: FC<Tallaprops> = ({ tallaList, setTallaList, talla, setTalla, 
                 </tr>
             ))}
             {deploy && (
-                <tr className="mb-2">
+                <tr className="mb-2 bg-black bg-opacity-10">
                     <td>
-                        <input name="talla" value={talla.talla} onChange={(e) => setTalla(e)} maxLength={5} id="talla" type="text" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" placeholder="M" />
+                        <input name="talla" value={talla.talla} onChange={(e) => setTalla(e)} maxLength={5} id="talla" type="text" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%]" placeholder="M" />
                     </td>
                     <td>
                         <input name="cantidad" value={talla.cantidad} onChange={(e) => setTalla(e)} maxLength={5} id="cantidad" type="number" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" placeholder="10" ></input>
                     </td>
-                    <td>
+                    <td className="flex flex-col">
                         <button className="justify-center flex items-center p-1 bg-lime-200 hover:bg-lime-300 rounded-lg" onClick={() => { setTallaList([...tallaList, talla]); setDeploy(false) }}>
                             <Icon icon="ri:save-line" />
                             Guardar
+                        </button>
+                        <button className="justify-center flex items-center p-1 bg-red-400 hover:bg-red-500 rounded-lg" onClick={() => { setDeploy(false); }}>
+                            <Icon icon="line-md:cancel-twotone" />
+                            Cancelar
                         </button>
                     </td>
                 </tr>

@@ -130,7 +130,7 @@ export default function Home() {
                 </div>
                 <div className="flex flex-wrap w-full px-5">
                     {filteredArticulos.map((articulo, index) => (
-                        <ListarInventario articulo={articulo} key={articulo.id} />
+                        <ListarInventario reload={reloadArticulos} articulo={articulo} key={articulo.id} categorias={categorias} />
                     ))}
                 </div>
             </div>

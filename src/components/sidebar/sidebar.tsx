@@ -15,7 +15,7 @@ export default function Sidebar() {
                 <div className=" pt-5 justify-center hidden">
                     <Link className="text-white " href="/">hola</Link>
                 </div>
-                <div className="flex flex-col pt-5 justify-center items-center h-full">
+                <div className="flex flex-col py-5 justify-center items-center h-full">
                     <div>
                         <Link className="flex items-center " href="/vender" onClick={() => setIsOpen(false)}>
                             <Icon className={`text-white mr-2 float-left text-5xl duration-1000 ${!isOpen && "rotate-[360deg] "} `} icon="material-symbols:sell-outline" />
@@ -52,7 +52,7 @@ export default function Sidebar() {
                     </div>
                 </div>
             </div>
-            <div className="w-full flex items-center justify-center h-20 bg-purple-900 md:hidden">
+            <div className="w-full flex items-center justify-center max-h-20 min-h-14 bg-purple-900 md:hidden">
                 <div>
                     <Link className="flex items-center " href="/vender">
                         <Icon className={`text-white mr-2 float-left text-5xl `} icon="material-symbols:sell-outline" />

@@ -77,6 +77,10 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias,
         setIsOpen(false);
         closeComponent();
     };
+    const [saving, setSaving] = useState(false);
+    const handleSaving = () => {
+        setSaving(!saving);
+    }
     // Function to handle the article change
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setArticulo({
@@ -194,10 +198,11 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias,
     // Function to save the article
     const handleArticuloSave = async () => {
         if (articulo.nombre === "" || articulo.descripcion === "" || articulo.precioDetal === 0 || articulo.precioMayorista === 0 || categoriasSeleccionadas.length === 0 || tallaList.length === 0) {
+            handleSaving();
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Por favor llene los campos de articulo!',
+                text: 'Por favor llene todos los campos de articulo!',
             });
         } else {
             try {
@@ -248,6 +253,7 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias,
                     const res1Result = await res1;
                     const res2Result = await res2;
                     if (res1Result.ok && res2Result.ok) {
+                        handleSaving();
                         Swal.fire({
                             icon: 'success',
                             title: 'Articulo creado!',
@@ -272,20 +278,7 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias,
                     });
                 }
             }
-            console.log(articateList);
-            console.log(tallaList);
-            console.log(articuloCreado);
             saveArticateTalla();
-            setCategoriasSeleccionadas([]);
-            setTallaList([]);
-            setArticuloCreado(null);
-            setArticateList([]);
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Error al crear el articulo!',
-            });
         }
     }, [articateList, tallaList]);
 
@@ -314,7 +307,7 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias,
                                     leave="ease-in duration-200"
                                     leaveFrom="opacity-100 scale-100"
                                     leaveTo="opacity-0 scale-95">
-                                    <div className=" absolute max-h-[80%] overflow-y-scroll custom-scrollbar top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-[50%] w-[80%] bg-white rounded-lg pb-1  ">
+                                    <div className={` absolute max-h-[80%] overflow-y-scroll custom-scrollbar top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-[50%] w-[80%] bg-white rounded-lg pb-1 ${saving && "overflow-y-hidden"} `}>
                                         <button title="close" className=" float-right pr-1 pt-1" onClick={closeComponent}><Icon icon="material-symbols:close" width={30} height={30} /></button>
                                         <div className="text-2xl pt-3 pl-10" >Anadir Producto</div>
                                         <div className="w-full flex justify-center items-center">
@@ -369,7 +362,7 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias,
                                                 </div>
                                                 <div className="text-left w-full pl-5">Tallas:</div>
                                                 <div className="w-full justify-center px-10">
-                                                    <div className="bg-black bg-opacity-10 h-40 overflow-y-scroll custom-scrollbar rounded-lg w-full justify-center items-center ">
+                                                    <div className="bg-black bg-opacity-10 pl-3 h-40 overflow-y-scroll custom-scrollbar rounded-lg w-full justify-center items-center ">
                                                         <table className={`justify-center items-center w-full`}>
                                                             <thead>
                                                                 <tr>
@@ -387,7 +380,7 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias,
                                             </div>
                                         </div>
                                         <div className="flex-row justify-center w-full flex items-center pt-2 pb-2 ">
-                                            <button className="justify-center flex items-center p-1 bg-lime-400 hover:bg-lime-500 rounded-lg" onClick={handleArticuloSave} >
+                                            <button className="justify-center flex items-center p-1 bg-lime-400 hover:bg-lime-500 rounded-lg" onClick={() => { handleSaving(); handleArticuloSave(); }} >
                                                 <Icon icon="ri:save-line" />
                                                 Guardar
                                             </button>
@@ -404,6 +397,14 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias,
                     </Dialog>
                 </Transition>
             </div>
+            {saving && <div className="w-full fixed inset-0 flex items-center justify-center backdrop-blur-sm z-20">
+                <div className={`p-10 flex-grow h-screen justify-center flex items-center`}>
+                    <div className="spinner">
+                        <div className="double-bounce1"></div>
+                        <div className="double-bounce2"></div>
+                    </div>
+                </div>
+            </div>}
         </>
     )
 }
