@@ -10,23 +10,23 @@ export default function Sidebar() {
 
     return (
         <>
-            <div className={`h-screen bg-purple-900 ${isOpen ? "min-w-72" : "min-w-28"} duration-300 relative max-md:hidden`}>
+            <div className={`h-dvh bg-purple-900 ${isOpen ? "min-w-72" : "min-w-28"} duration-500 relative max-md:hidden`}>
                 <Icon className={`bg-white text-purple-950 text-6xl rounded-full absolute -right-7 top-9 border-2 border-purple-900 cursor-pointer ${!isOpen && "rotate-180"} duration-500 `} onClick={() => setIsOpen(!isOpen)} icon="mingcute:arrow-left-fill" />
                 <div className=" pt-5 justify-center hidden">
                     <Link className="text-white " href="/">hola</Link>
                 </div>
-                <div className="flex flex-col py-5 justify-center items-center h-full">
+                <div className="flex flex-col py-5 justify-center w-full items-center h-dvh">
                     <div>
                         <Link className="flex items-center " href="/vender" onClick={() => setIsOpen(false)}>
                             <Icon className={`text-white mr-2 float-left text-5xl duration-1000 ${!isOpen && "rotate-[360deg] "} `} icon="material-symbols:sell-outline" />
-                            <h1 className={`text-white font-medium origin-left text-3xl duration-500 ${!isOpen && "hidden"} `}>Vender</h1>
+                            <h1 className={`text-white font-medium origin-left text-3xl duration-500 ${!isOpen && "hidden"} `}>Facturacion</h1>
                         </Link>
                     </div>
                     <div className="h-10" />
                     <div>
                         <Link className="flex items-center " href="/ventas" onClick={() => setIsOpen(false)}>
                             <Icon className={`text-white mr-2 float-left text-5xl duration-1000 ${!isOpen && "rotate-[360deg] "} `} icon="mdi:clipboard-text-history-outline" />
-                            <h1 className={`text-white font-medium origin-left text-3xl duration-500 ${!isOpen && "hidden"} `}>Ventas</h1>
+                            <div className={`text-white font-medium origin-left text-3xl duration-500 ${!isOpen && "hidden"} `}>Ventas</div>
                         </Link>
                     </div>
                     <div className="h-10" />

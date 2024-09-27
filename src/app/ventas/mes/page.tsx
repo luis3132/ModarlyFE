@@ -1,7 +1,6 @@
 "use client";
 
 import Ventas from "@/components/sidecomponents/ventas";
-import VentasHoy from "@/components/ventas/ventasHoy";
 import { use, useEffect, useState } from "react";
 
 interface Cliente {
@@ -63,11 +62,13 @@ export default function Home() {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const date = new Date();
+    const [day, setDay] = useState<string>(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate());
 
     useEffect(() => {
         const fetchVentas = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/venta/list/hoy`, {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/venta/list/mes/${day}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json"
@@ -86,7 +87,6 @@ export default function Home() {
     return (
         <>
             <Ventas />
-            {!loading && !error && <VentasHoy ventas={ventas} />}
             <div className={`p-10 flex-grow h-screen justify-center flex items-center ${loading ? "" : "hidden"}`}>
                 <div className="spinner">
                     <div className="double-bounce1"></div>

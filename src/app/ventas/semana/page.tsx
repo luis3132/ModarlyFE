@@ -1,7 +1,7 @@
 "use client";
 
 import Ventas from "@/components/sidecomponents/ventas";
-import VentasHoy from "@/components/ventas/ventasHoy";
+import VentasSemana from "@/components/ventas/ventasSemana";
 import { use, useEffect, useState } from "react";
 
 interface Cliente {
@@ -57,17 +57,25 @@ interface Venta {
     venttall: Venttall[];
 }
 
+const getWeekRange = () => {
+    const currentDate = new Date();
+    const firstDay = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
+    const lastDay = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 6));
+    return { firstDay, lastDay };
+};
+
 export default function Home() {
 
     const [ventas, setVentas] = useState<Venta[]>([]);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
+    
     useEffect(() => {
         const fetchVentas = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/venta/list/hoy`, {
+                const { firstDay, lastDay } = getWeekRange();
+                const res = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/venta/list/semana/${firstDay.toISOString().split('T')[0]}/${lastDay.toISOString().split('T')[0]}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json"
@@ -83,10 +91,11 @@ export default function Home() {
         }
         fetchVentas();
     }, []);
+
     return (
         <>
             <Ventas />
-            {!loading && !error && <VentasHoy ventas={ventas} />}
+            {!loading && !error && <VentasSemana ventas={ventas} />}
             <div className={`p-10 flex-grow h-screen justify-center flex items-center ${loading ? "" : "hidden"}`}>
                 <div className="spinner">
                     <div className="double-bounce1"></div>
