@@ -2,7 +2,7 @@
 
 import Ventas from "@/components/sidecomponents/ventas";
 import VentasRango from "@/components/ventas/ventasRango";
-import { ChangeEvent, use, useEffect, useState } from "react";
+import React, { ChangeEvent, use, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 interface Cliente {

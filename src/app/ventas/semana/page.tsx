@@ -2,7 +2,7 @@
 
 import Ventas from "@/components/sidecomponents/ventas";
 import VentasSemana from "@/components/ventas/ventasSemana";
-import { use, useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 
 interface Cliente {
     cedula: string;

@@ -2,7 +2,7 @@
 
 import ListarCliente from "@/components/cliente/listarCliente";
 import Clientes from "@/components/sidecomponents/clientes";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 interface Cliente {
     cedula: string;

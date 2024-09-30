@@ -1,5 +1,6 @@
 import ResumenCompra from "@/components/sidecomponents/resumenCompra";
 import Vender from "@/components/sidecomponents/vender";
+import React from "react";
 
 
 export default function Home() {

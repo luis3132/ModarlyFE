@@ -1,7 +1,7 @@
 "use client";
 
 import Ventas from "@/components/sidecomponents/ventas";
-import { use, useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 
 interface Cliente {
     cedula: string;

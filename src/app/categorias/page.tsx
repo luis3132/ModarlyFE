@@ -1,7 +1,7 @@
 "use client";
 
 import Categorias from "@/components/sidecomponents/categorias";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import ListarCategoria from "@/components/categoria/listarCategoria";
 

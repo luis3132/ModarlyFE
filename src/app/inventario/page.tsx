@@ -1,7 +1,7 @@
 "use client";
 
 import Inventario from "@/components/sidecomponents/inventario";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import ListarInventario from "@/components/inventario/listarInventario";
 
