@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react/dist/iconify.js"
-import { useState, FC } from "react";
+import React, { useState, FC } from "react";
 import CrearCliente from "../cliente/crearCliente";
 
 interface ClientesProps {

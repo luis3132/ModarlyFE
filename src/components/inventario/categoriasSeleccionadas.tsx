@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface Categoria {

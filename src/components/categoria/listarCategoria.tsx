@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import React, { FC, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Swal from "sweetalert2";
 import EditarCategoria from "./editarCategoria";

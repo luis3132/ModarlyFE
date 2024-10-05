@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { ChangeEvent, FC, Fragment, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, Fragment, useEffect, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import CategoriaSeleccionada from './categoriasSeleccionadas';
 import SubcategoriaSeleccionar from './subcategoriasSeleccionar';

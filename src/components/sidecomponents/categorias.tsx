@@ -1,7 +1,6 @@
-import { FC, useState } from "react";
+import React, { FC, useState } from "react";
 import CrearCategoria from "../categoria/crearCategoria";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import React from "react";
 
 
 interface Categoria {

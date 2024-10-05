@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from "react";
+import React, { ChangeEvent, FC, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface Talla {

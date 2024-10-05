@@ -1,7 +1,6 @@
 import { Icon } from "@iconify/react/dist/iconify.js"
-import { FC, useState } from "react";
+import React, { FC, useState } from "react";
 import CrearInventario from "../inventario/crearInventario";
-import React from "react";
 
 interface categoria {
     id: number;

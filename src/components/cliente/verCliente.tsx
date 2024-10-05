@@ -1,4 +1,4 @@
-import { FC, useState, Fragment, ChangeEvent } from 'react';
+import React, { FC, useState, Fragment, ChangeEvent } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Swal from 'sweetalert2';

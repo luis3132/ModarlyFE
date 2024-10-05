@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { ChangeEvent, FC, use, useEffect, useState } from "react";
+import React, { ChangeEvent, FC, use, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 interface Talla {

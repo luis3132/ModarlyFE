@@ -1,13 +1,12 @@
 "use client";
 
 import { Dialog, Transition } from '@headlessui/react';
-import { ChangeEvent, FC, Fragment, use, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, Fragment, use, useEffect, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Swal from 'sweetalert2';
 import CategoriaSeleccionada from './categoriasSeleccionadas';
 import SubcategoriaSeleccionar from './subcategoriasSeleccionar';
 import CrearTalla from './crearTalla';
-import React from 'react';
 
 interface Categoria {
     id: number;
