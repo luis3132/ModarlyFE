@@ -1,9 +1,10 @@
 import { Icon } from "@iconify/react/dist/iconify.js"
+import React from "react"
 
 export default function Vender() {
     return (
         <>
-            <div className="w-64 shadow-lg shadow-gray-600 max-sm:hidden max-h-screen overflow-y-scroll custom-scrollbar bg-purple-200">
+            <div className="w-64 shadow-lg shadow-gray-600 max-md:hidden max-h-screen overflow-y-scroll custom-scrollbar bg-purple-200">
                 <div className="pr-5 pl-10 pt-11">
                     <div className="relative">
                         <Icon icon="mdi:magnify" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white text-xl" />

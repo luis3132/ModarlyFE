@@ -114,7 +114,7 @@ export default function Home() {
     return (
         <>
             <Inventario categorias={categorias} loading={loadingCategorias} error={errorCategorias} setSearchQuery={setSearchQueryPadre} setSearchQueryA={setSearchQueryHija} reload={reloadArticulos} />
-            <div className={`p-5 flex-grow h-full justify-center overflow-y-scroll custom-scrollbar ${!loading ? "" : "hidden"} ${!error ? "" : "hidden"} `}>
+            <div className={`p-5 flex-grow md:max-h-dvh h-full overflow-hidden justify-center ${!loading ? "" : "hidden"} ${!error ? "" : "hidden"} `}>
                 <div className="w-full h-min">
                     <div className="p-5">
                         <div className="relative">
@@ -128,10 +128,12 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-wrap w-full px-5">
-                    {filteredArticulos.map((articulo, index) => (
-                        <ListarInventario reload={reloadArticulos} articulo={articulo} key={articulo.id} categorias={categorias} />
-                    ))}
+                <div className="w-full h-full">
+                    <div className="flex flex-wrap max-h-[100%] w-full px-5 overflow-y-scroll custom-scrollbar">
+                        {filteredArticulos.map((articulo, index) => (
+                            <ListarInventario reload={reloadArticulos} articulo={articulo} key={articulo.id} categorias={categorias} />
+                        ))}
+                    </div>
                 </div>
             </div>
             <div className={`p-10 flex-grow h-screen justify-center flex items-center ${loading ? "" : "hidden"}`}>

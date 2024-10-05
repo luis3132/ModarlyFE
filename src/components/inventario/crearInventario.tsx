@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import CategoriaSeleccionada from './categoriasSeleccionadas';
 import SubcategoriaSeleccionar from './subcategoriasSeleccionar';
 import CrearTalla from './crearTalla';
+import React from 'react';
 
 interface Categoria {
     id: number;
@@ -28,8 +29,8 @@ interface Articate {
 interface Articulo {
     nombre: string;
     descripcion: string;
-    precioDetal: number;
-    precioMayorista: number;
+    precioDetal: number | "";
+    precioMayorista: number | "";
 }
 
 interface ArticuloCreado {
@@ -53,8 +54,8 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias,
     const [articulo, setArticulo] = useState<Articulo>({
         nombre: "",
         descripcion: "",
-        precioDetal: 0,
-        precioMayorista: 0
+        precioDetal: "",
+        precioMayorista: ""
     });
 
     const [articuloCreado, setArticuloCreado] = useState<ArticuloCreado | null>(null);
