@@ -312,7 +312,7 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias,
                                         <button title="close" className=" float-right pr-1 pt-1" onClick={closeComponent}><Icon icon="material-symbols:close" width={30} height={30} /></button>
                                         <div className="text-2xl pt-3 pl-10" >Anadir Producto</div>
                                         <div className="w-full flex justify-center items-center">
-                                            <img className="" src="/hello-kitty-pictures-xeulf538v4jogtue.jpg" alt="user" width={250} />
+                                            <img className="object-cover" src="/modarly.jpeg" alt="user" width={250} />
                                         </div>
                                         <input title="archivo" type="file" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" />
                                         <div className="flex max-lg:flex-col w-full">

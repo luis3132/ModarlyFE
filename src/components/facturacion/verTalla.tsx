@@ -111,7 +111,7 @@ const VerTallas: FC<verTallasprops> = ({ articulo, closeComponent, setVenttall, 
                                         <div className="w-full p-5 md:flex relative ">
                                             <div className="md:w-1/2 max-md:w-full h-inherit flex items-center justify-center">
                                                 <div className="rounded-xl overflow-hidden mb-2 shadow-2xl h-min" >
-                                                    <img src="/hello-kitty-pictures-xeulf538v4jogtue.jpg" alt="user" width="w-full" height={200} />
+                                                    <img src="/modarly.jpeg" alt="user" className="object-cover" width="" height={200} />
                                                 </div>
                                             </div>
                                             <div className="px-5 max-md:mt-5 md:ml-5 md:w-1/2 max-md:w-full">

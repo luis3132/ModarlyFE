@@ -219,7 +219,7 @@ const VerCliente: FC<ClientesProps> = ({ cliente, closeComponent, setReload }) =
 
                                                 </div>
                                                 <div className="w-full py-4 pr-4 max-md:pl-4">
-                                                    <img src="/hello-kitty-pictures-xeulf538v4jogtue.jpg" alt="user" width="w-full" height={200} />
+                                                    <img className="object-cover" src="/modarly.jpeg" alt="user" width="" height={200} />
                                                 </div>
                                             </div>
                                             <div className="flex-row justify-center w-full flex items-center pt-2 ">

@@ -61,7 +61,7 @@ const ListarInventario: FC<InventarioProps> = ({ articulo, categorias, reload })
                     <div key={articulo.id} className="w-full h-full">
                         <h1 className="text-2xl font-bold">{articulo.nombre}</h1>
                         <div className="rounded-xl overflow-hidden max-h-72" >
-                            <img src="/hello-kitty-pictures-xeulf538v4jogtue.jpg" alt="user" width="w-full" height={200} />
+                            <img src="/modarly.jpeg" alt="user" width="" className="object-cover" height={200} />
                         </div>
                         <div className="mt-2 text-lg">{articulo.descripcion}</div>
                     </div>

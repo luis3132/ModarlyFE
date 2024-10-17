@@ -639,7 +639,7 @@ const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categ
                                         <button title="close" className=" float-right pr-1 pt-1" onClick={closeComponent}><Icon icon="material-symbols:close" width={30} height={30} /></button>
                                         <div className="text-2xl pt-3 pl-10" >{articulo.nombre}</div>
                                         <div className="w-full flex justify-center items-center">
-                                            <img className="" src="/hello-kitty-pictures-xeulf538v4jogtue.jpg" alt="user" width={250} />
+                                            <img className="object-cover" src="/modarly.jpeg" alt="user" width={250} />
                                         </div>
                                         {edit ? (
                                             <>

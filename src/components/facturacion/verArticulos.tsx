@@ -74,7 +74,7 @@ const VerArticulos: FC<verArticulosprops> = ({ articulo, index, mayorista, setVe
                 <button className={`${background} ${hoverBackground} rounded-lg p-5`} onClick={handleShowInventario}>
                     <h1 className="text-center text-2xl font-bold">{articulo.nombre}</h1>
                     <div className="rounded-xl overflow-hidden max-h-72 mb-2" >
-                        <img src="/hello-kitty-pictures-xeulf538v4jogtue.jpg" alt="user" width="w-full" height={200} />
+                        <img src="/modarly.jpeg" alt="user" className="object-cover" width="" height={200} />
                     </div>
                     <p className="text-center text-lg font-bold">
                         {mayorista ? <>{articulo.precioMayorista}</> : <>{articulo.precioDetal}</>}
