@@ -113,7 +113,7 @@ export default function Home() {
 
     return (
         <>
-            <Ventas />
+            <Ventas key={1} />
             <div className={`w-full h-dvh ${!error ? "" : "hidden"} `}>
                 <div className={` w-full ${!error ? "" : "hidden"}`}>
                     <div className="w-full pt-10 pb-5 px-10 flex max-md:flex-col justify-between">

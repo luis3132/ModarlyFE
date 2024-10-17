@@ -43,7 +43,7 @@ const Inventario: FC<inventarioprops> = ({ categorias, loading, error, setSearch
 
     return (
         <>
-            <div className="min-w-80 max-w-80 shadow-lg shadow-gray-600 max-md:hidden max-h-dvh overflow-y-scroll custom-scrollbar bg-purple-200">
+            <div className="min-w-64 max-w-64 shadow-lg shadow-gray-600 max-md:hidden max-h-dvh overflow-y-scroll custom-scrollbar bg-purple-200">
                 <div className="pr-5 pl-10 pt-11">
                     <button className="bg-purple-700 hover:bg-purple-900 text-white rounded-lg p-2 w-full" onClick={handleAddProducto}>Agregar producto</button>
                 </div>

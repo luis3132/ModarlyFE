@@ -51,7 +51,7 @@ export default function Home() {
 
     return (
         <>
-            <Categorias loading={loading} error={error} setReload={handleReload} setSearchQuery={setSearchQueryPadre} categorias={categorias} />
+            <Categorias loading={loading} error={error} setReload={handleReload} setSearchQuery={setSearchQueryPadre} categorias={categorias} key={1} />
             <div className={`p-5 flex-grow h-full justify-center flex overflow-y-scroll custom-scrollbar ${!loading ? "" : "hidden"} ${!error ? "" : "hidden"}`}>
                 <div className="w-full">
                 <div className="p-5">

@@ -46,3 +46,7 @@
         transform: scale(1.0);
     }
 }
+
+.h-inherit {
+    height: inherit;
+}

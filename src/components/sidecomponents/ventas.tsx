@@ -11,7 +11,7 @@ const Ventas = () => {
 
     return (
         <>
-            <div className="min-w-56 shadow-lg shadow-gray-600 max-md:hidden max-h-dvh overflow-y-scroll custom-scrollbar bg-purple-200">
+            <div className="min-w-64 max-w-64 shadow-lg shadow-gray-600 max-md:hidden max-h-dvh overflow-y-scroll custom-scrollbar bg-purple-200">
                 <div className="flex flex-col py-5 justify-center w-full items-center h-dvh">
                     <div>
                         <Link className="flex items-center " href="/ventas" >

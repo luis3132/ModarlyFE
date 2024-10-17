@@ -85,8 +85,8 @@ export default function Home() {
     }, []);
     return (
         <>
-            <Ventas />
-            {!loading && !error && <VentasHoy ventas={ventas} />}
+            <Ventas key={1} />
+            {!loading && !error && <VentasHoy ventas={ventas} key={1} />}
             <div className={`p-10 flex-grow h-screen justify-center flex items-center ${loading ? "" : "hidden"}`}>
                 <div className="spinner">
                     <div className="double-bounce1"></div>

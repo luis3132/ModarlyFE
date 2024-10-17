@@ -86,7 +86,7 @@ export default function Home() {
     }, []);
     return (
         <>
-            <Ventas />
+            <Ventas key={1} />
             <div className={`p-10 flex-grow h-screen justify-center flex items-center ${loading ? "" : "hidden"}`}>
                 <div className="spinner">
                     <div className="double-bounce1"></div>

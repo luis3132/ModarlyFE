@@ -29,7 +29,7 @@ const Clientes: FC<ClientesProps> = ({ setSearchQuery, setReload }) => {
 
     return (
         <>
-            <div className="min-w-64 shadow-lg shadow-gray-600 max-md:hidden max-h-dvh overflow-y-scroll custom-scrollbar bg-purple-200">
+            <div className="min-w-64 max-w-64 shadow-lg shadow-gray-600 max-md:hidden max-h-dvh overflow-y-scroll custom-scrollbar bg-purple-200">
                 <div className="pr-5 pl-10 pt-11">
                     <button className="bg-purple-700 hover:bg-purple-900 text-white rounded-lg p-2 w-full" onClick={handleAddCliente} >Agregar Cliente</button>
                 </div>
