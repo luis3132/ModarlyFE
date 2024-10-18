@@ -638,8 +638,10 @@ const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categ
                                     <div className=" absolute max-h-[80%] overflow-y-scroll custom-scrollbar top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-[50%] w-[80%] bg-white rounded-lg pb-1 ">
                                         <button title="close" className=" float-right pr-1 pt-1" onClick={closeComponent}><Icon icon="material-symbols:close" width={30} height={30} /></button>
                                         <div className="text-2xl pt-3 pl-10" >{articulo.nombre}</div>
-                                        <div className="w-full flex justify-center items-center">
-                                            <img className="object-cover" src="/modarly.jpeg" alt="user" width={250} />
+                                        <div className="mb-2 items-center justify-center w-full flex">
+                                            <div className=" flex rounded-xl w-fit overflow-hidden min-h-72 max-h-72 shadow-xl " >
+                                                <img src="/modarly.jpeg" alt="user" className="object-cover h-72" />
+                                            </div>
                                         </div>
                                         {edit ? (
                                             <>

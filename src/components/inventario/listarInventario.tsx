@@ -60,8 +60,10 @@ const ListarInventario: FC<InventarioProps> = ({ articulo, categorias, reload })
                 <button className={` w-full max-h-min p-5 ${background} ${hoverBackground} rounded-lg shadow-lg`} onClick={handleShowInventario}>
                     <div key={articulo.id} className="w-full h-full">
                         <h1 className="text-2xl font-bold">{articulo.nombre}</h1>
-                        <div className="rounded-xl overflow-hidden max-h-72" >
-                            <img src="/modarly.jpeg" alt="user" width="" className="object-cover" height={200} />
+                        <div className="mb-2 items-center justify-center w-full flex">
+                            <div className=" flex rounded-xl w-fit overflow-hidden min-h-72 max-h-72 shadow-xl " >
+                                <img src="/modarly.jpeg" alt="user" className="object-cover h-72" />
+                            </div>
                         </div>
                         <div className="mt-2 text-lg">{articulo.descripcion}</div>
                     </div>
