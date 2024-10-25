@@ -37,7 +37,7 @@ interface Venta {
     fecha: string;
     cliente: string;
     pagacon: number | "";
-    vueltos: number | "";
+    vueltos: number;
     metodoDePago: string;
 }
 
@@ -65,11 +65,14 @@ interface PagoItemsProps {
     closeComponent: () => void;
     venttall: Venttall[] | null;
     articulo: Articulo[];
+    setVenttall: (venttall: Venttall[]) => void;
+    deploy: () => void;
 }
 
-const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo }) => {
+const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo, setVenttall, deploy }) => {
     const [isOpen, setIsOpen] = useState(true);
     const [loading, setLoading] = useState(true);
+    const [update, setUpdate] = useState(false);
     const [error, setError] = useState("");
     const [anadir, setAnadir] = useState(false);
     const [clienteNuevo, setClienteNuevo] = useState(false);
@@ -81,6 +84,8 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo }) =
 
     const [VentaCreada, setVentaCreada] = useState<VentaCreada | null>(null);
     const [clienteCreado, setClienteCreado] = useState<Cliente | null>(null);
+    const [venttallCreada, setVenttallCreada] = useState<Venttall[] | null>(null);
+    const [tallaActualizada, setTallaActualizada] = useState<Talla[] | null>(null);
     const tallasActualizar: Talla[] = articulo?.flatMap((art) => art.tallas.map((talla) => {
         const venttallAct = venttall?.find((venttall) => venttall.talla === talla.id);
         if (venttallAct) {
@@ -326,7 +331,7 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo }) =
     // function to create a new sale
     const handleVentaNueva = () => {
         if (clienteExitente || clienteCreado) {
-            if (venta.cliente === "" || venta.metodoDePago === "" || (venta.metodoDePago === "Efectivo" && venta.pagacon === 0)) {
+            if (venta.cliente === "" || venta.metodoDePago === "" || (venta.metodoDePago === "Efectivo" && (venta.pagacon === 0 || venta.vueltos === 0))) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -342,6 +347,7 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo }) =
                     cancelButtonText: 'No'
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        setUpdate(true);
                         setLoading(true);
                         saveVenta();
                     }
@@ -376,11 +382,86 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo }) =
         }
     }
 
-    console.log(venta);
+    useEffect(() => {
+        if (VentaCreada) {
+            const newVenttall = venttall?.map((v) => ({
+                ...v,
+                venta: VentaCreada.id
+            })) || [];
+            setVenttall(newVenttall);
+        }
+    }, [VentaCreada]);
+
+    useEffect(() => {
+        if (VentaCreada) {
+            updateTallas();
+            saveVenttall();
+            setUpdate(false);
+        }
+    }, [venttall]);
+
+    useEffect(() => {
+        if (venttallCreada && tallaActualizada) {
+            deploy();
+            Swal.fire({
+                icon: 'success',
+                title: 'Venta guardada',
+                text: 'Venta guardada con exito!, desea imprimir la factura?',
+                showCancelButton: true,
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                deploy();
+                if (result.isConfirmed) {
+                    window.print();
+                }
+            });
+        }
+    }, [venttallCreada, tallaActualizada]);
+
+    const saveVenttall = async () => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/venttall/new`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(venttall)
+            });
+            const data = await res.json();
+            setVenttallCreada(data);
+        } catch (e) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Error al guardar los items',
+            });
+        }
+    }
+
+    const updateTallas = async () => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/talla/update`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(tallasActualizar)
+            });
+            const data = await res.json();
+            setTallaActualizada(data);
+        } catch (e) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Error al actualizar las tallas',
+            });
+        }
+    }
 
     return (
         <>
-            <div className="w-full fixed inset-0 flex items-center justify-center backdrop-blur-sm z-0">
+            <div className="w-full h-dvh fixed inset-0 flex items-center justify-center backdrop-blur-sm z-0">
                 <Transition appear show={isOpen} as={Fragment}>
                     <Dialog as="div" className="relative z-10" onClose={closeModal}>
                         <Transition.Child
@@ -421,31 +502,31 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo }) =
                                             </div>
                                             <div className="md:w-2/3 max-md:w-full px-5 bg-slate-100 rounded-lg md:ml-2 mb-2">
                                                 <div className="text-2xl font-bold " >Cliente</div>
-                                                <div className="w-full flex">
-                                                    <div className="w-1/3 flex flex-col px-2 justify-center">
+                                                <div className="w-full flex max-md:flex-col">
+                                                    <div className="w-1/3 max-md:w-full flex flex-col px-2 justify-center">
                                                         <p className='w-full'>Cedula</p>
                                                         <input type='number' name="cedula" value={cliente?.cedula} onChange={(e) => { handleCliente(e); handleVenta(e); }} list='cedula' className="w-full px-2 bg-gray-200 rounded-lg" />
                                                         <datalist id="cedula">
                                                             {filterCliente?.map((cliente) => (
-                                                                <option value={cliente.cedula} />
+                                                                <option value={cliente.cedula} key={cliente.cedula} />
                                                             ))}
                                                         </datalist>
                                                     </div>
-                                                    <div className="w-1/3 flex flex-col px-2 justify-center">
+                                                    <div className="w-1/3 max-md:w-full flex flex-col px-2 justify-center">
                                                         <p className='w-full'>Nombres</p>
                                                         <input name="nombre" value={cliente?.nombres} list='nombre' className="w-full px-2 bg-gray-200 rounded-lg" onChange={handleCliente} />
                                                         <datalist id='nombre'>
                                                             {filterCliente?.map((cliente) => (
-                                                                <option value={cliente.nombres} />
+                                                                <option value={cliente.nombres} key={cliente.nombres} />
                                                             ))}
                                                         </datalist>
                                                     </div>
-                                                    <div className="w-1/3 flex flex-col px-2 justify-center">
+                                                    <div className="w-1/3 max-md:w-full flex flex-col px-2 justify-center">
                                                         <p className='w-full'>Apellidos</p>
                                                         <input name="apellido" value={cliente?.apellidos} list='apellido' className="w-full px-2 bg-gray-200 rounded-lg" onChange={handleCliente} />
                                                         <datalist id='apellido'>
                                                             {filterCliente?.map((cliente) => (
-                                                                <option value={cliente.apellidos} />
+                                                                <option value={cliente.apellidos} key={cliente.apellidos} />
                                                             ))}
                                                         </datalist>
                                                     </div>
@@ -501,7 +582,7 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo }) =
                                                     <div className="flex">
                                                         <p>Metodo de pago:</p>
                                                         <select name="metodoDePago" value={venta?.metodoDePago} onChange={(e) => handleVenta(e)} className="w-full p-1 rounded-lg bg-gray-200">
-                                                            <option selected value="">Seleccionar</option>
+                                                            <option defaultValue="">Seleccionar</option>
                                                             <option value="Efectivo">Efectivo</option>
                                                             <option value="Tarjeta">Tarjeta</option>
                                                             <option value="Transferencia">Transferencia</option>
@@ -533,6 +614,14 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo }) =
                     </Dialog>
                 </Transition>
             </div>
+            {update && <div className="w-full fixed inset-0 flex items-center justify-center backdrop-blur-sm z-20">
+                <div className={`p-10 flex-grow h-screen justify-center flex items-center`}>
+                    <div className="spinner">
+                        <div className="double-bounce1"></div>
+                        <div className="double-bounce2"></div>
+                    </div>
+                </div>
+            </div>}
         </>
     )
 }

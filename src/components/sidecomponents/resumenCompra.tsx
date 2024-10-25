@@ -168,7 +168,7 @@ const ResumenCompra: FC<ResumenCompraProps> = ({ deploy, setDeploy, venttall, ar
                         <button className={` w-7 text-2xl rounded-full border-2 text-center border-purple-600 transition-all duration-500 ${show ? "-rotate-90" : "rotate-90"} `} title="deploy" onClick={handleShow} ><Icon icon="material-symbols:arrow-back-ios-new" /></button>
                     </div>
                     <div className="flex flex-col max-h-[82%] h-[82%] overflow-y-scroll custom-scrollbar mt-1">
-                        <form id="carrito" onSubmit={handleSumit}>
+                        <form id="carrito1" onSubmit={handleSumit}>
                             {venttall?.map((venttall, i) => {
                                 if (articulo !== undefined) {
                                     return (
@@ -196,11 +196,11 @@ const ResumenCompra: FC<ResumenCompraProps> = ({ deploy, setDeploy, venttall, ar
                         </div>
                     </div>
                     <div className="h-[10%] flex items-center">
-                        <button form="carrito" className="bg-purple-500 hover:bg-purple-700 text-white rounded-lg p-2 w-full" >Pagar</button>
+                        <button form="carrito1" className="bg-purple-500 hover:bg-purple-700 text-white rounded-lg p-2 w-full" >Pagar</button>
                     </div>
                 </div>
             </div>
-            {pago && <PagoItems articulo={articulo} venttall={venttall} closeComponent={handlePago} key={1} />}
+            {pago && <PagoItems articulo={articulo} venttall={venttall} setVenttall={setVenttall} closeComponent={handlePago} deploy={handlePago} key={1} />}
         </>
     )
 }
