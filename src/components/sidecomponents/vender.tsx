@@ -50,16 +50,24 @@ const Vender: FC<VenderProps> = ({ error, loading, categorias, setSearchQuery, s
                         />
                     </div>
                 </div>
-                <div className="flex flex-col p-5 justify-center">
-                    <div className="flex justify-between pt-5">
+                <div className="flex flex-col p-5 justify-start h-[90%] relative ">
+                    <div className="flex pt-5">
                         <button className={`p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md ${mayorista ? "bg-purple-500" : "bg-purple-300 hover:bg-purple-400"}`} onClick={setMayorista}>Mayorista</button>
                     </div>
-                    <div className="flex flex-col py-5 justify-between max-h-[60%] overflow-y-scroll custom-scrollbar">
+                    <div className="flex flex-col py-5 h-full">
                         <h1 className="text-center text-2xl font-bold">Categorias</h1>
-                        <button className={`p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md ${activeButton === "e" ? "bg-purple-500" : "bg-purple-300 hover:bg-purple-400"}`} onClick={() => handleButtonClick("e")}>Todas</button>
-                        {uniqueCategorias.map((categoria) => (
-                            <button className={`p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md ${activeButton === categoria.padre ? "bg-purple-500" : "bg-purple-300 hover:bg-purple-400"}`} key={categoria.id} onClick={() => handleButtonClick(categoria.padre)}>{categoria.padre}</button>
-                        ))}
+                        <div className="w-full max-h-[80%] overflow-y-scroll custom-scrollbar ">
+                            <button className={`p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md ${activeButton === "e" ? "bg-purple-500" : "bg-purple-300 hover:bg-purple-400"}`} onClick={() => handleButtonClick("e")}>Todas</button>
+                            {uniqueCategorias.map((categoria) => (
+                                <button className={`p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md ${activeButton === categoria.padre ? "bg-purple-500" : "bg-purple-300 hover:bg-purple-400"}`} key={categoria.id} onClick={() => handleButtonClick(categoria.padre)}>{categoria.padre}</button>
+                            ))}
+                        </div>
+                        <div className={`p-10 h-20 justify-center flex items-center ${loading ? "" : "hidden"}`}>
+                            <div className="spinner">
+                                <div className="double-bounce1"></div>
+                                <div className="double-bounce2"></div>
+                            </div>
+                        </div>
                         <h1 className="text-center mt-4 text-2xl font-bold">SubCategoria</h1>
                         <div className="relative">
                             <Icon icon="mdi:magnify" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white text-xl" />
@@ -70,14 +78,8 @@ const Vender: FC<VenderProps> = ({ error, loading, categorias, setSearchQuery, s
                                 onChange={(e) => setSearchQueryA(e.target.value)}
                             />
                         </div>
-                        <div className={`p-10 flex-grow h-20 justify-center flex items-center ${loading ? "" : "hidden"}`}>
-                            <div className="spinner">
-                                <div className="double-bounce1"></div>
-                                <div className="double-bounce2"></div>
-                            </div>
-                        </div>
-                        <div className={`p-10 flex-grow h-20 justify-center  items-center ${error ? "" : "hidden"}`}>
-                            <div className="error h-screen text-center">
+                        <div className={`p-5 flex-grow h-20 justify-center  items-center ${error ? "" : "hidden"}`}>
+                            <div className="error h-inherit text-center">
                                 <h1 className="text-4xl text-red-500">{error}</h1>
                             </div>
                         </div>
@@ -93,7 +95,7 @@ const Vender: FC<VenderProps> = ({ error, loading, categorias, setSearchQuery, s
                         </div>
                     </div>
                     <div className={`p-10 flex-grow h-20 justify-center  items-center ${error ? "" : "hidden"}`}>
-                        <div className="error h-screen text-center">
+                        <div className="error h-inherit text-center">
                             <h1 className="text-4xl text-red-500">{error}</h1>
                         </div>
                     </div>

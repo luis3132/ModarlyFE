@@ -79,7 +79,7 @@ const VerArticulos: FC<verArticulosprops> = ({ articulo, index, mayorista, setVe
                         </div>
                     </div>
                     <p className="text-center text-lg font-bold">
-                        {mayorista ? <>{articulo.precioMayorista}</> : <>{articulo.precioDetal}</>}
+                        {mayorista ? <>${articulo.precioMayorista}</> : <>${articulo.precioDetal}</>}
                     </p>
                     <div className="w-full flex">
                         <div className="w-[60%] p-2 flex">

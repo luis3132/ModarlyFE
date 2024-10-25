@@ -655,7 +655,7 @@ const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categ
                                                             </div>
                                                             <div className="" >
                                                                 <div className="text-left w-full pl-5">Descripcion:</div>
-                                                                <textarea name="descripcion" value={articulo1.descripcion} onChange={(e) => handleChange(e)} maxLength={500} id="descripcion" className="bg-black bg-opacity-10 h-8 rounded-3xl text-center w-[80%] pl-2" placeholder="descripcion" ></textarea>
+                                                                <textarea name="descripcion" value={articulo1.descripcion} onChange={(e) => handleChange(e)} maxLength={500} id="descripcion" className="bg-black bg-opacity-10 h-fit rounded-3xl text-center w-[80%] pl-2" placeholder="descripcion" ></textarea>
                                                             </div>
                                                             <div className="" >
                                                                 <div className="text-left w-full pl-5">Precio Detal:</div>
@@ -741,7 +741,7 @@ const VerInventario: FC<VerInventarioProps> = ({ closeComponent, articulo, categ
                                                             </div>
                                                             <div className="" >
                                                                 <div className="text-left w-full pl-5">Descripcion:</div>
-                                                                <textarea name="descripcion" value={articulo.descripcion} maxLength={500} disabled id="descripcion1" className="bg-black bg-opacity-10 h-8 rounded-3xl text-center w-[80%] pl-2" placeholder="descripcion" ></textarea>
+                                                                <textarea name="descripcion" value={articulo.descripcion} maxLength={500} disabled id="descripcion1" className="bg-black bg-opacity-10 h-fit rounded-3xl text-center w-[80%] pl-2" placeholder="descripcion" ></textarea>
                                                             </div>
                                                             <div className="" >
                                                                 <div className="text-left w-full pl-5">Precio Detal:</div>

@@ -47,12 +47,20 @@ const Inventario: FC<inventarioprops> = ({ categorias, loading, error, setSearch
                 <div className="pr-5 pl-10 pt-11">
                     <button className="bg-purple-700 hover:bg-purple-900 text-white rounded-lg p-2 w-full" onClick={handleAddProducto}>Agregar producto</button>
                 </div>
-                <div className="flex flex-col p-5 justify-between">
+                <div className="flex flex-col p-5 h-[90%]">
                     <h1 className="text-center text-2xl font-bold">Categorias</h1>
-                    <button className={`p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md ${activeButton === "e" ? "bg-purple-500" : "bg-purple-300 hover:bg-purple-400"}`} onClick={() => handleButtonClick("e")}>Todas</button>
-                    {uniqueCategorias.map((categoria) => (
-                        <button className={`p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md ${activeButton === categoria.padre ? "bg-purple-500" : "bg-purple-300 hover:bg-purple-400"}`} key={categoria.id} onClick={() => handleButtonClick(categoria.padre)}>{categoria.padre}</button>
-                    ))}
+                    <div className="w-full max-h-[80%] overflow-y-scroll custom-scrollbar ">
+                        <button className={`p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md ${activeButton === "e" ? "bg-purple-500" : "bg-purple-300 hover:bg-purple-400"}`} onClick={() => handleButtonClick("e")}>Todas</button>
+                        {uniqueCategorias.map((categoria) => (
+                            <button className={`p-2 mb-1 w-full bg-purple-300 hover:bg-purple-400 rounded-md ${activeButton === categoria.padre ? "bg-purple-500" : "bg-purple-300 hover:bg-purple-400"}`} key={categoria.id} onClick={() => handleButtonClick(categoria.padre)}>{categoria.padre}</button>
+                        ))}
+                    </div>
+                    <div className={`p-10 h-20 justify-center flex items-center ${loading ? "" : "hidden"}`}>
+                        <div className="spinner">
+                            <div className="double-bounce1"></div>
+                            <div className="double-bounce2"></div>
+                        </div>
+                    </div>
                     <h1 className="text-center mt-4 text-2xl font-bold">SubCategoria</h1>
                     <div className="relative">
                         <Icon icon="mdi:magnify" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white text-xl" />
@@ -63,14 +71,8 @@ const Inventario: FC<inventarioprops> = ({ categorias, loading, error, setSearch
                             onChange={(e) => setSearchQueryA(e.target.value)}
                         />
                     </div>
-                    <div className={`p-10 flex-grow h-20 justify-center flex items-center ${loading ? "" : "hidden"}`}>
-                        <div className="spinner">
-                            <div className="double-bounce1"></div>
-                            <div className="double-bounce2"></div>
-                        </div>
-                    </div>
-                    <div className={`p-10 flex-grow h-20 justify-center  items-center ${error ? "" : "hidden"}`}>
-                        <div className="error h-screen text-center">
+                    <div className={`p-5 h-min justify-center  items-center ${error ? "" : "hidden"}`}>
+                        <div className="error text-center">
                             <h1 className="text-4xl text-red-500">{error}</h1>
                         </div>
                     </div>

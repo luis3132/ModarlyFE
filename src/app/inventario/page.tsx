@@ -114,7 +114,7 @@ export default function Home() {
     return (
         <>
             <Inventario categorias={categorias} loading={loadingCategorias} error={errorCategorias} setSearchQuery={setSearchQueryPadre} setSearchQueryA={setSearchQueryHija} reload={reloadArticulos} key={1} />
-            <div className={`p-5 flex-grow md:max-h-dvh h-full overflow-hidden justify-center ${!loading ? "" : "hidden"} ${!error ? "" : "hidden"} `}>
+            <div className={`p-5 flex-grow md:max-h-dvh h-dvh overflow-hidden justify-center ${!loading ? "" : "hidden"} ${!error ? "" : "hidden"} `}>
                 <div className="w-full h-min shadow-2xl rounded-xl">
                     <div className="p-5">
                         <div className="relative">
@@ -128,7 +128,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="w-full h-full">
+                <div className="w-full h-dvh">
                     <div className="flex flex-wrap max-h-[100%] w-full px-5 overflow-y-scroll custom-scrollbar">
                         {filteredArticulos.map((articulo, index) => (
                             <ListarInventario reload={reloadArticulos} articulo={articulo} key={articulo.id} categorias={categorias} />
@@ -136,14 +136,14 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div className={`p-10 flex-grow h-screen justify-center flex items-center ${loading ? "" : "hidden"}`}>
+            <div className={`p-10 flex-grow h-dvh justify-center flex items-center ${loading ? "" : "hidden"}`}>
                 <div className="spinner">
                     <div className="double-bounce1"></div>
                     <div className="double-bounce2"></div>
                 </div>
             </div>
-            <div className={`p-10 flex-grow h-screen justify-center  items-center ${error ? "" : "hidden"}`}>
-                <div className="error h-screen text-center">
+            <div className={`p-10 h-dvh justify-center flex items-center ${error ? "" : "hidden"}`}>
+                <div className="error text-center">
                     <h1 className="text-4xl text-red-500">{error}</h1>
                 </div>
             </div>

@@ -270,6 +270,7 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias,
                             title: 'Oops...',
                             text: 'Error al crear el articulo!',
                         });
+                        setSaving(false);
                     }
                 } catch (error) {
                     Swal.fire({
@@ -277,6 +278,7 @@ const CrearInventario: FC<CrearInventarioProps> = ({ closeComponent, categorias,
                         title: 'Oops...',
                         text: 'Error al crear el articulo!',
                     });
+                    setSaving(false);
                 }
             }
             saveArticateTalla();

@@ -4,7 +4,7 @@ import VerArticulos from "@/components/facturacion/verArticulos";
 import ResumenCompra from "@/components/sidecomponents/resumenCompra";
 import Vender from "@/components/sidecomponents/vender";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface Categoria {
     id: number;
@@ -36,23 +36,6 @@ interface Venttall {
     precioFinal: number;
 }
 
-interface Venta {
-    fecha: Date;
-    cliente: string;
-    pagacon: number | "";
-    vueltos: number | "";
-    metodoDePago: string;
-}
-
-interface VentaCreada {
-    id: number;
-    fecha: Date;
-    cliente: string;
-    pagacon: number;
-    vueltos: number;
-    metodoDePago: string;
-}
-
 export default function Home() {
     // States
     const [loading, setLoading] = useState(true);
@@ -65,8 +48,6 @@ export default function Home() {
     const [categorias, setCategorias] = useState<Categoria[]>([]);
     const [articulos, setArticulos] = useState<Articulo[]>([]);
     const [venttallList, setVenttallList] = useState<Venttall[]>([]);
-    const [VentaCreada, setVentaCreada] = useState<VentaCreada | null>(null);
-    const [tallasActualizar, setTallasActualizar] = useState<Talla[]>([]);
 
     const [searchQueryPadre, setSearchQueryPadre] = useState('');
     const [searchQueryHija, setSearchQueryHija] = useState('');
@@ -75,14 +56,6 @@ export default function Home() {
     const [verCarrito, setVerCarrito] = useState(false);
     const [deploy, setDeploy] = useState(false);
     const [mayorista, setMayorista] = useState(false);
-
-    const [venta, setVenta] = useState<Venta>({
-        fecha: new Date(),
-        cliente: "",
-        pagacon: "",
-        vueltos: "",
-        metodoDePago: ""
-    });
 
     // function to list the categories
     useEffect(() => {
@@ -164,6 +137,9 @@ export default function Home() {
     useEffect(() => {
         if (venttallList.length > 0) {
             setVerCarrito(true);
+        } else {
+            setVerCarrito(false);
+            setDeploy(false);
         }
     }, [venttallList]);
 
@@ -181,6 +157,15 @@ export default function Home() {
         });
 
         setVenttallList(updatedVenttallList);
+    }
+
+    const handleDeleteVenttall = (talla: number) => {
+        const updatedVenttallList = venttallList.filter((item) => item.talla !== talla);
+        setVenttallList(updatedVenttallList);
+    }
+
+    const handleReload = () => {
+        setDeploy(!deploy);
     }
 
     //console.log("venttallList:", JSON.stringify(venttallList, null, 2));
@@ -209,25 +194,25 @@ export default function Home() {
                     </div>
                 </div>
                 <div className="w-full h-full">
-                    <div className="flex flex-wrap h-[95%] w-full px-5 overflow-y-scroll custom-scrollbar">
+                    <div className="flex flex-wrap h-[95%] w-full px-5 overflow-y-scroll custom-scrollbar max-md:justify-center">
                         {filteredArticulos.map((articulo, index) => (
                             <VerArticulos venttall={venttallList} setVenttall={handleAddVenttall} articulo={articulo} index={index} mayorista={mayorista} key={index} />
                         ))}
                     </div>
                 </div>
             </div>
-            <div className={`p-10 flex-grow h-screen justify-center flex items-center ${loading ? "" : "hidden"}`}>
+            <div className={`p-10 flex-grow h-dvh justify-center flex items-center ${loading ? "" : "hidden"}`}>
                 <div className="spinner">
                     <div className="double-bounce1"></div>
                     <div className="double-bounce2"></div>
                 </div>
             </div>
-            <div className={`p-10 flex-grow h-screen justify-center  items-center ${error ? "" : "hidden"}`}>
-                <div className="error h-screen text-center">
+            <div className={`p-10 flex flex-grow h-dvh justify-center  items-center ${error ? "" : "hidden"}`}>
+                <div className="error text-center">
                     <h1 className="text-4xl text-red-500">{error}</h1>
                 </div>
             </div>
-            <ResumenCompra mayorista={mayorista} articulo={articulos} venttall={venttallList} setDeploy={handleCarrito} deploy={deploy} key={2} />
+            <ResumenCompra reload={handleReload} deleteVenttall={handleDeleteVenttall} setVenttall={handleAddVenttall} mayorista={mayorista} articulo={articulos} venttall={venttallList} setDeploy={handleCarrito} deploy={deploy} key={2} />
         </>
     );
 }

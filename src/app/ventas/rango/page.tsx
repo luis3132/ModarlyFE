@@ -116,16 +116,18 @@ export default function Home() {
             <Ventas key={1} />
             <div className={`w-full h-dvh ${!error ? "" : "hidden"} `}>
                 <div className={` w-full ${!error ? "" : "hidden"}`}>
-                    <div className="w-full pt-10 pb-5 px-10 flex max-md:flex-col justify-between">
-                        <div className="w-[40%] max-md:w-full items-center">
-                            <label className="text-2xl font-bold w-full">Inicio</label>
-                            <input title="inicio" className="w-full my-1 bg-purple-700 hover:bg-purple-900 text-white p-2 pl-10 rounded-lg" type="date" onChange={(e) => handleInicio(e)}></input>
+                    <div className="w-full pt-10 pb-5 px-10">
+                        <div className="w-full h-min flex max-md:flex-col justify-between rounded-lg shadow-2xl px-2 py-1">
+                            <div className="w-[40%] max-md:w-full items-center">
+                                <label className="text-2xl font-bold w-full">Inicio</label>
+                                <input title="inicio" className="w-full my-1 bg-purple-700 hover:bg-purple-900 text-white p-2 pl-10 rounded-lg" type="date" onChange={(e) => handleInicio(e)}></input>
+                            </div>
+                            <div className="w-[40%] max-md:w-full items-center">
+                                <label className="text-2xl font-bold">Fin</label>
+                                <input title="fin" className="w-full my-1 bg-purple-700 hover:bg-purple-900 text-white p-2 pl-10 rounded-lg pr-2" type="date" onChange={(e) => handleFin(e)}></input>
+                            </div>
+                            <button className="my-1 bg-purple-700 hover:bg-purple-900 text-white p-2 rounded-lg" onClick={fetchVentas} >Buscar</button>
                         </div>
-                        <div className="w-[40%] max-md:w-full items-center">
-                            <label className="text-2xl font-bold">Fin</label>
-                            <input title="fin" className="w-full my-1 bg-purple-700 hover:bg-purple-900 text-white p-2 pl-10 rounded-lg pr-2" type="date" onChange={(e) => handleFin(e)}></input>
-                        </div>
-                        <button className="my-1 bg-purple-700 hover:bg-purple-900 text-white p-2 rounded-lg" onClick={fetchVentas} >Buscar</button>
                     </div>
                     <div className="overflow-y-scroll custom-scrollbar w-full">
                         {!loading && !error && VentasRango({ ventas })}

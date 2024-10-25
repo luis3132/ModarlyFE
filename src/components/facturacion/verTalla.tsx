@@ -68,16 +68,25 @@ const VerTallas: FC<verTallasprops> = ({ articulo, closeComponent, setVenttall, 
             }
         });
 
-        // Assuming you have a function to update the venttallist in the parent component
-        setVenttall(updatedVenttallList);
-        Swal.fire({
-            icon: 'success',
-            title: 'Añadido al carrito',
-            showConfirmButton: false,
-            timer: 1500
-        }).then(() => {
-            closeComponent();
+        if (updatedVenttallList.length > 0) {
+            setVenttall(updatedVenttallList);
+            Swal.fire({
+                icon: 'success',
+                title: 'Añadido al carrito',
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+                closeComponent();
             });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor selecciona una talla y cantidad',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
     };
 
     return (
@@ -105,7 +114,7 @@ const VerTallas: FC<verTallasprops> = ({ articulo, closeComponent, setVenttall, 
                                     leave="ease-in duration-200"
                                     leaveFrom="opacity-100 scale-100"
                                     leaveTo="opacity-0 scale-95">
-                                    <div className={` absolute max-h-dvh h-min top-1/2 left-1/2 transform -translate-x-1/2 overflow-y-scroll custom-scrollbar -translate-y-1/2 md:w-[40%] max-md:w-[80%] bg-white rounded-lg pb-1 `}>
+                                    <div className={` absolute max-h-[90%] h-min top-1/2 left-1/2 transform -translate-x-1/2 overflow-y-scroll custom-scrollbar -translate-y-1/2 md:w-[40%] max-md:w-[80%] bg-white rounded-lg pb-1 `}>
                                         <button title="close" className=" float-right pr-1 pt-1" onClick={closeComponent}><Icon icon="material-symbols:close" width={30} height={30} /></button>
                                         <div className="text-2xl pt-3 pl-10 font-bold" >{articulo.nombre}</div>
                                         <div className="w-full p-5 md:flex relative ">

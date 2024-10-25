@@ -23,7 +23,8 @@
     margin: 100px auto;
 }
 
-.double-bounce1, .double-bounce2 {
+.double-bounce1,
+.double-bounce2 {
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -40,13 +41,21 @@
 }
 
 @keyframes bounce {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(0.0);
-    } 50% {
+    }
+
+    50% {
         transform: scale(1.0);
     }
 }
 
 .h-inherit {
     height: inherit;
+}
+
+.max-h-inherit {
+    max-height: inherit;
 }
