@@ -1,20 +1,49 @@
-import React, { FC, useState, Fragment, ChangeEvent } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import React, { FC, useState, Fragment, ChangeEvent, useEffect } from 'react';
+import { Dialog, Transition, TransitionChild } from '@headlessui/react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Swal from 'sweetalert2';
+import VentaCliente from './ventaCliente';
 
-interface ClientesProps {
-    closeComponent: () => void;
-    cliente: {
-        cedula: string,
-        nombres: string,
-        apellidos: string,
-        mayorista: boolean,
-        telefono: string,
-        fijo: string,
-        descripcion: string
-    };
-    setReload: () => void;
+interface Articate {
+    id: {
+        articulo: number;
+        categoria: number;
+    }
+}
+
+interface Articulo {
+    id: number;
+    nombre: string;
+    descripcion: string;
+    precioDetal: number;
+    precioMayorista: number;
+    articate: Articate;
+}
+
+interface Talla {
+    id: number;
+    talla: string;
+    cantidad: number;
+    articulo: Articulo;
+}
+
+interface Venttall {
+    id: {
+        venta: number;
+        talla: number;
+    },
+    cantidad: number;
+    precioFinal: number;
+    talla: Talla;
+}
+
+interface Venta {
+    id: number;
+    cliente: Cliente;
+    fecha: Date;
+    pagacon: number;
+    vueltos: number;
+    venttall: Venttall[];
 }
 
 interface Cliente {
@@ -25,18 +54,59 @@ interface Cliente {
     fijo: string;
     descripcion: string;
     mayorista: boolean;
+    fechaCreacion: Date;
+}
+
+interface ClientesProps {
+    closeComponent: () => void;
+    cliente: {
+        cedula: string,
+        nombres: string,
+        apellidos: string,
+        mayorista: boolean,
+        telefono: string,
+        fijo: string,
+        descripcion: string,
+        fechaCreacion: Date
+    };
+    setReload: () => void;
 }
 
 const VerCliente: FC<ClientesProps> = ({ cliente, closeComponent, setReload }) => {
 
     const [cliente1, setCliente1] = useState<Cliente>(cliente);
     const [edit, setEdit] = useState(false);
+    const [ventasHechas, setVentasHechas] = useState(0);
+    const [ventas, setVentas] = useState<Venta[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const [inicio, setInicio] = useState<string | null>(null);
+    const [fin, setFin] = useState<string | null>(null);
 
     const [isOpen, setIsOpen] = useState(true);
     const closeModal = () => {
         setIsOpen(false);
         closeComponent();
     };
+
+    useEffect(() => {
+        const fetchventa = async () => {
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/venta/count/${cliente.cedula}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+                const data = await res.json();
+                setVentasHechas(data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchventa();
+    }, []);
 
     // Function to handle the changes in the inputs
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -110,12 +180,56 @@ const VerCliente: FC<ClientesProps> = ({ cliente, closeComponent, setReload }) =
         });
     }
 
+    const handleInicio = (e: ChangeEvent<HTMLInputElement>) => {
+        setInicio(e.target.value);
+    }
+
+    const handleFin = (e: ChangeEvent<HTMLInputElement>) => {
+        setFin(e.target.value);
+    }
+
+    const fetchVentas = async () => {
+        setLoading(true);
+        if (inicio && fin) {
+            if (inicio <= fin) {
+                try {
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/venta/list/rango/${inicio}/${fin}/${cliente.cedula}`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+                    const data = await res.json();
+                    setVentas(data);
+                    setLoading(false);
+                } catch (e) {
+                    setLoading(false);
+                    setError("Error al cargar las ventas");
+                }
+            } else {
+                setLoading(false);
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "La fecha de inicio debe ser menor o igual a la fecha de fin"
+                });
+            }
+        } else {
+            setLoading(false);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Debe seleccionar un rango de fechas"
+            });
+        }
+    }
+
     return (
         <>
             <div className="w-full fixed inset-0 flex items-center justify-center backdrop-blur-sm z-10">
                 <Transition appear show={isOpen} as={Fragment}>
                     <Dialog as="div" className="relative z-10" onClose={closeModal}>
-                        <Transition.Child
+                        <TransitionChild
                             as={Fragment}
                             enter="ease-out duration-300"
                             enterFrom="opacity-0"
@@ -124,10 +238,10 @@ const VerCliente: FC<ClientesProps> = ({ cliente, closeComponent, setReload }) =
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0">
                             <div className="fixed inset-0 bg-black/25" />
-                        </Transition.Child>
+                        </TransitionChild>
                         <div className="fixed inset-0 overflow-y-auto">
                             <div className="flex min-h-full items-center justify-center p-4 text-center">
-                                <Transition.Child
+                                <TransitionChild
                                     as={Fragment}
                                     enter="ease-out duration-300"
                                     enterFrom="opacity-0 scale-95"
@@ -135,7 +249,7 @@ const VerCliente: FC<ClientesProps> = ({ cliente, closeComponent, setReload }) =
                                     leave="ease-in duration-200"
                                     leaveFrom="opacity-100 scale-100"
                                     leaveTo="opacity-0 scale-95">
-                                    <div className={` absolute max-h-dvh top-1/2 left-1/2 transform -translate-x-1/2 overflow-y-scroll custom-scrollbar -translate-y-1/2 ${edit ? "xl:w-[30%]" : "xl:w-[40%]"} w-[80%] bg-white rounded-lg pb-1 `}>
+                                    <div className={` absolute max-h-dvh top-1/2 left-1/2 transform -translate-x-1/2 overflow-y-scroll custom-scrollbar -translate-y-1/2 ${edit ? "xl:w-[30%]" : "xl:w-[60%]"} w-[90%] bg-white rounded-lg pb-1 `}>
                                         {edit ? (<>
                                             <button title="close" className=" float-right pr-1 pt-1" onClick={closeComponent}><Icon icon="material-symbols:close" width={30} height={30} /></button>
                                             <div className="text-2xl pt-3 pl-10" >{cliente1.nombres} {cliente1.apellidos}</div>
@@ -187,7 +301,7 @@ const VerCliente: FC<ClientesProps> = ({ cliente, closeComponent, setReload }) =
                                             <button title="close" className=" float-right pr-1 pt-1" onClick={closeComponent}><Icon icon="material-symbols:close" width={30} height={30} /></button>
                                             <div className="text-2xl pt-3 pl-10" >{cliente.nombres} {cliente.apellidos}</div>
                                             <div className="w-full md:flex">
-                                                <div>
+                                                <div className="md:w-1/3 w-full" >
                                                     <div className="" >
                                                         <div className="text-left w-full pl-5 font-bold">Cedula:</div>
                                                         <input title='z' disabled value={cliente.cedula} id="cedula1" type="number" className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" ></input>
@@ -218,8 +332,35 @@ const VerCliente: FC<ClientesProps> = ({ cliente, closeComponent, setReload }) =
                                                     </div>
 
                                                 </div>
-                                                <div className="w-full py-4 pr-4 max-md:pl-4">
-                                                    <img className="object-cover" src="/modarly.jpeg" alt="user" width="" height={200} />
+                                                <div className="w-full md:w-2/3 pr-4 max-md:pl-4">
+                                                    <div className="text-left w-full pl-5 font-bold">Ventas:</div>
+                                                    <div className="w-full rounded-lg bg-gray-200">
+                                                        <div className="flex justify-between w-full pt-2">
+                                                            <div className="text-left text-gray-400 pl-5">Realizadas en total:</div>
+                                                            <div className="text-gray-400 pr-5">{ventasHechas}</div>
+                                                        </div>
+                                                        <div className="flex w-full">
+                                                            <div className="w-3/4">
+                                                                <div className="text-left w-full pl-5 font-bold">Fecha Inicio:</div>
+                                                                <input value={inicio ?? ''} type="date" onChange={(e) => handleInicio(e)} className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" />
+                                                                <div className="text-left w-full pl-5 font-bold">Fecha Final:</div>
+                                                                <input value={fin ?? ''} type="date" onChange={(e) => handleFin(e)} className="bg-black bg-opacity-10 h-8 rounded-full text-center w-[80%] pl-2" />
+                                                            </div>
+                                                            <div className="flex items-center">
+                                                                <button className="justify-center flex items-center p-3 text-xl bg-lime-400 hover:bg-lime-500 rounded-lg" onClick={fetchVentas}>
+                                                                    <Icon icon="ri:save-line" />
+                                                                    Buscar
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div className="p-5 w-full h-min">
+                                                            <div className="w-full py-2 pl-2 bg-gray-300 max-h-[300px] h-[200px] rounded-xl overflow-y-scroll custom-scrollbar">
+                                                                {ventas.map((venta, index) => (
+                                                                    <VentaCliente key={index} venta={venta} index={index} />
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="flex-row justify-center w-full flex items-center pt-2 ">
@@ -235,7 +376,7 @@ const VerCliente: FC<ClientesProps> = ({ cliente, closeComponent, setReload }) =
                                             </div>
                                         </>)}
                                     </div>
-                                </Transition.Child>
+                                </TransitionChild>
                             </div>
                         </div>
                     </Dialog>

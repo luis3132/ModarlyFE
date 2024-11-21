@@ -12,7 +12,7 @@ interface Cliente {
     fijo: string;
     descripcion: string;
     mayorista: boolean;
-    fechaCreacion: string;
+    fechaCreacion: Date;
 }
 
 export default function Home() {

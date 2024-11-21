@@ -2,6 +2,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { ChangeEvent, FC, Fragment, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import Items from './items';
 
 interface Venttall {
     venta: number;
@@ -81,6 +82,7 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo, set
     }, 0);
     const [efectivo, setEfectivo] = useState(false);
     const [clienteExitente, setClienteExistente] = useState(false);
+    const [reload, setReload] = useState(false);
 
     const [VentaCreada, setVentaCreada] = useState<VentaCreada | null>(null);
     const [clienteCreado, setClienteCreado] = useState<Cliente | null>(null);
@@ -139,7 +141,8 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo, set
             }
         }
         fetchClientes();
-    }, []);
+        console.log("hola");
+    }, [reload]);
     // function to show buttom to create a new client
     useEffect(() => {
         if (!clienteNuevo) {
@@ -299,6 +302,7 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo, set
                 cancelButtonText: 'No'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    setReload(!reload);
                     setClienteNuevo(false);
                     setAnadir(false);
                     setLoading(true);
@@ -381,7 +385,7 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo, set
             });
         }
     }
-
+    // function to update the venttall, setting the venta id
     useEffect(() => {
         if (VentaCreada) {
             const newVenttall = venttall?.map((v) => ({
@@ -391,7 +395,7 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo, set
             setVenttall(newVenttall);
         }
     }, [VentaCreada]);
-
+    // function to update the tallas, decreasing the quantity
     useEffect(() => {
         if (VentaCreada) {
             updateTallas();
@@ -399,7 +403,7 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo, set
             setUpdate(false);
         }
     }, [venttall]);
-
+    
     useEffect(() => {
         if (venttallCreada && tallaActualizada) {
             deploy();
@@ -413,7 +417,9 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo, set
             }).then((result) => {
                 deploy();
                 if (result.isConfirmed) {
-                    window.print();
+                    location.reload();
+                } else {
+                    location.reload();
                 }
             });
         }
@@ -627,36 +633,3 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo, set
 }
 
 export default PagoItems;
-
-interface ItemProps {
-    venttall: Venttall;
-    articulo: Articulo[];
-}
-
-const Items: FC<ItemProps> = ({ articulo, venttall }) => {
-    const articuloAct = articulo.find((art) => art.tallas.find((talla) => talla.id === venttall.talla));
-    const talla = articuloAct?.tallas.find((talla) => talla.id === venttall.talla);
-
-    return (
-        <>
-            <div className="relative flex flex-row p-2 rounded-xl shadow-lg mb-2 bg-purple-300" key={articuloAct?.id}>
-                <div className="w-1/3 h-inherit flex items-center p-1">
-                    <div className="rounded-xl overflow-hidden mb-2 shadow-2xl h-min" >
-                        <img src="/modarly.jpeg" alt="user" className="object-cover" width="" />
-                    </div>
-                </div>
-                <div className="w-2/3 flex flex-col">
-                    <div className="text-lg">{articuloAct?.nombre}</div>
-                    <div className="md:text-sm md:flex">
-                        <p className="flex items-center">Precio:</p>
-                        <div className="flex w-full justify-center">
-                            <input name={`${venttall.talla}`} disabled type="number" value={venttall.precioFinal} className="md:w-full w-[80%] ml-2 p-1 rounded-lg bg-purple-400 shadow-lg" />
-                        </div>
-                    </div>
-                    <div className="md:text-sm">Talla: {talla?.talla}</div>
-                    <div className="md:text-sm">Cantidad: {venttall.cantidad}</div>
-                </div>
-            </div>
-        </>
-    )
-}

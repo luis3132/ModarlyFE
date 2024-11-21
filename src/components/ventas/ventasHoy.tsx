@@ -76,15 +76,13 @@ const VentasHoy: FC<VentasHoyProps> = ({ ventas }) => {
                 <div className="w-full justify-center flex pt-10">
                     <h1 className="text-3xl font-bold text-black">Ventas de hoy</h1>
                 </div>
-                <div className="px-10 max-md:px-1 py-5 w-full">
-                    <div className="text-2xl">
-                        Ventas Madrugada (12 am - 6 am)
-                    </div>
-                    <div className="w-full justify-center flex pt-1">
-                        <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-56 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
-                            {madrugadaVentas.length === 0 ? (
-                                <div className="text-center text-red-500 text-3xl">No hay ventas en este rango de tiempo</div>
-                            ) : (
+                {madrugadaVentas.length > 0 && (
+                    <div className="px-10 max-md:px-1 py-5 w-full">
+                        <div className="text-2xl">
+                            Ventas Madrugada (12 am - 6 am)
+                        </div>
+                        <div className="w-full justify-center flex pt-1">
+                            <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-56 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
                                 <table className="w-full">
                                     <thead className="jus">
                                         <tr>
@@ -102,19 +100,17 @@ const VentasHoy: FC<VentasHoyProps> = ({ ventas }) => {
                                         ))}
                                     </tbody>
                                 </table>
-                            )}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="px-10 max-md:px-1 py-5 w-full">
-                    <div className="text-2xl">
-                        Ventas Mañana (6 am - 12 pm)
-                    </div>
-                    <div className="w-full justify-center flex pt-1">
-                        <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-64 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
-                            {mananaVentas.length === 0 ? (
-                                <div className="text-center text-red-500 text-3xl">No hay ventas en este rango de tiempo</div>
-                            ) : (
+                )}
+                {mananaVentas.length > 0 && (
+                    <div className="px-10 max-md:px-1 py-5 w-full">
+                        <div className="text-2xl">
+                            Ventas Mañana (6 am - 12 pm)
+                        </div>
+                        <div className="w-full justify-center flex pt-1">
+                            <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-64 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
                                 <table className="w-full">
                                     <thead className="jus">
                                         <tr>
@@ -132,19 +128,17 @@ const VentasHoy: FC<VentasHoyProps> = ({ ventas }) => {
                                         ))}
                                     </tbody>
                                 </table>
-                            )}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="px-10 max-md:px-1 py-5 w-full">
-                    <div className="text-2xl">
-                        Ventas Tarde (12 pm - 6 pm)
-                    </div>
-                    <div className="w-full justify-center flex pt-1">
-                        <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-64 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
-                            {tardeVentas.length === 0 ? (
-                                <div className="text-center text-red-500 text-3xl">No hay ventas en este rango de tiempo</div>
-                            ) : (
+                )}
+                {tardeVentas.length > 0 && (
+                    <div className="px-10 max-md:px-1 py-5 w-full">
+                        <div className="text-2xl">
+                            Ventas Tarde (12 pm - 6 pm)
+                        </div>
+                        <div className="w-full justify-center flex pt-1">
+                            <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-64 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
                                 <table className="w-full">
                                     <thead className="jus">
                                         <tr>
@@ -162,19 +156,17 @@ const VentasHoy: FC<VentasHoyProps> = ({ ventas }) => {
                                         ))}
                                     </tbody>
                                 </table>
-                            )}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="px-10 max-md:px-1 py-5 w-full">
-                    <div className="text-2xl">
-                        Ventas Noche (6 pm - 12 am)
-                    </div>
-                    <div className="w-full justify-center flex pt-1">
-                        <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-56 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
-                            {nocheVentas.length === 0 ? (
-                                <div className="text-center text-red-500 text-3xl">No hay ventas en este rango de tiempo</div>
-                            ) : (
+                )}
+                {nocheVentas.length > 0 && (
+                    <div className="px-10 max-md:px-1 py-5 w-full">
+                        <div className="text-2xl">
+                            Ventas Noche (6 pm - 12 am)
+                        </div>
+                        <div className="w-full justify-center flex pt-1">
+                            <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-56 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
                                 <table className="w-full">
                                     <thead className="jus">
                                         <tr>
@@ -192,10 +184,15 @@ const VentasHoy: FC<VentasHoyProps> = ({ ventas }) => {
                                         ))}
                                     </tbody>
                                 </table>
-                            )}
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
+                {ventas.length === 0 && (
+                    <div className="px-10 max-md:px-1 py-5 w-full">
+                        <div className="text-center text-red-500 text-3xl">No hay ventas registradas el Dia de hoy</div>
+                    </div>
+                )}
             </div>
         </>
     )

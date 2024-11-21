@@ -60,7 +60,7 @@ interface Venta {
 const getWeekRange = () => {
     const currentDate = new Date();
     const firstDay = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
-    const lastDay = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 6));
+    const lastDay = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 7));
     return { firstDay, lastDay };
 };
 

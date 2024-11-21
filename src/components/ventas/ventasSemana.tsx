@@ -72,15 +72,13 @@ const VentasSemana: FC<VentasSemanaProps> = ({ ventas }) => {
                 <div className="w-full justify-center flex pt-10">
                     <h1 className="text-3xl font-bold text-black">Ventas de la semana</h1>
                 </div>
-                <div className="px-10 max-md:px-1 py-5 w-full">
-                    <div className="text-2xl">
-                        Ventas Lunes
-                    </div>
-                    <div className="w-full justify-center flex pt-1">
-                        <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-56 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
-                            {ventasLunes.length === 0 ? (
-                                <div className="text-center text-red-500 text-3xl">No hay ventas en este rango de tiempo</div>
-                            ) : (
+                {ventasLunes.length > 0 && (
+                    <div className="px-10 max-md:px-1 py-5 w-full">
+                        <div className="text-2xl">
+                            Ventas Lunes
+                        </div>
+                        <div className="w-full justify-center flex pt-1">
+                            <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-56 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
                                 <table className="w-full">
                                     <thead className="jus">
                                         <tr>
@@ -98,19 +96,17 @@ const VentasSemana: FC<VentasSemanaProps> = ({ ventas }) => {
                                         ))}
                                     </tbody>
                                 </table>
-                            )}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="px-10 max-md:px-1 py-5 w-full">
-                    <div className="text-2xl">
-                        Ventas Martes
-                    </div>
-                    <div className="w-full justify-center flex pt-1">
-                        <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-64 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
-                            {ventasMartes.length === 0 ? (
-                                <div className="text-center text-red-500 text-3xl">No hay ventas en este rango de tiempo</div>
-                            ) : (
+                )}
+                {ventasMartes.length > 0 && (
+                    <div className="px-10 max-md:px-1 py-5 w-full">
+                        <div className="text-2xl">
+                            Ventas Martes
+                        </div>
+                        <div className="w-full justify-center flex pt-1">
+                            <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-64 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
                                 <table className="w-full">
                                     <thead className="jus">
                                         <tr>
@@ -128,19 +124,17 @@ const VentasSemana: FC<VentasSemanaProps> = ({ ventas }) => {
                                         ))}
                                     </tbody>
                                 </table>
-                            )}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="px-10 max-md:px-1 py-5 w-full">
-                    <div className="text-2xl">
-                        Ventas Miercoles
-                    </div>
-                    <div className="w-full justify-center flex pt-1">
-                        <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-64 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
-                            {ventasMiercoles.length === 0 ? (
-                                <div className="text-center text-red-500 text-3xl">No hay ventas en este rango de tiempo</div>
-                            ) : (
+                )}
+                {ventasMiercoles.length > 0 && (
+                    <div className="px-10 max-md:px-1 py-5 w-full">
+                        <div className="text-2xl">
+                            Ventas Miercoles
+                        </div>
+                        <div className="w-full justify-center flex pt-1">
+                            <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-64 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
                                 <table className="w-full">
                                     <thead className="jus">
                                         <tr>
@@ -158,19 +152,17 @@ const VentasSemana: FC<VentasSemanaProps> = ({ ventas }) => {
                                         ))}
                                     </tbody>
                                 </table>
-                            )}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="px-10 max-md:px-1 py-5 w-full">
-                    <div className="text-2xl">
-                        Ventas Jueves
-                    </div>
-                    <div className="w-full justify-center flex pt-1">
-                        <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-56 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
-                            {ventasJueves.length === 0 ? (
-                                <div className="text-center text-red-500 text-3xl">No hay ventas en este rango de tiempo</div>
-                            ) : (
+                )}
+                {ventasJueves.length > 0 && (
+                    <div className="px-10 max-md:px-1 py-5 w-full">
+                        <div className="text-2xl">
+                            Ventas Jueves
+                        </div>
+                        <div className="w-full justify-center flex pt-1">
+                            <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-56 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
                                 <table className="w-full">
                                     <thead className="jus">
                                         <tr>
@@ -188,19 +180,17 @@ const VentasSemana: FC<VentasSemanaProps> = ({ ventas }) => {
                                         ))}
                                     </tbody>
                                 </table>
-                            )}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="px-10 max-md:px-1 py-5 w-full">
-                    <div className="text-2xl">
-                        Ventas Viernes
-                    </div>
-                    <div className="w-full justify-center flex pt-1">
-                        <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-56 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
-                            {ventasViernes.length === 0 ? (
-                                <div className="text-center text-red-500 text-3xl">No hay ventas en este rango de tiempo</div>
-                            ) : (
+                )}
+                {ventasViernes.length > 0 && (
+                    <div className="px-10 max-md:px-1 py-5 w-full">
+                        <div className="text-2xl">
+                            Ventas Viernes
+                        </div>
+                        <div className="w-full justify-center flex pt-1">
+                            <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-56 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
                                 <table className="w-full">
                                     <thead className="jus">
                                         <tr>
@@ -218,19 +208,17 @@ const VentasSemana: FC<VentasSemanaProps> = ({ ventas }) => {
                                         ))}
                                     </tbody>
                                 </table>
-                            )}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="px-10 max-md:px-1 py-5 w-full">
-                    <div className="text-2xl">
-                        Ventas Sabado
-                    </div>
-                    <div className="w-full justify-center flex pt-1">
-                        <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-56 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
-                            {ventasSabado.length === 0 ? (
-                                <div className="text-center text-red-500 text-3xl">No hay ventas en este rango de tiempo</div>
-                            ) : (
+                )}
+                {ventasSabado.length > 0 && (
+                    <div className="px-10 max-md:px-1 py-5 w-full">
+                        <div className="text-2xl">
+                            Ventas Sabado
+                        </div>
+                        <div className="w-full justify-center flex pt-1">
+                            <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-56 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
                                 <table className="w-full">
                                     <thead className="jus">
                                         <tr>
@@ -248,19 +236,17 @@ const VentasSemana: FC<VentasSemanaProps> = ({ ventas }) => {
                                         ))}
                                     </tbody>
                                 </table>
-                            )}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="px-10 max-md:px-1 py-5 w-full pb-10">
-                    <div className="text-2xl">
-                        Ventas Domingo
-                    </div>
-                    <div className="w-full justify-center flex pt-1">
-                        <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-56 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
-                            {ventasDomingo.length === 0 ? (
-                                <div className="text-center text-red-500 text-3xl">No hay ventas en este rango de tiempo</div>
-                            ) : (
+                )}
+                {ventasDomingo.length > 0 && (
+                    <div className="px-10 max-md:px-1 py-5 w-full pb-10">
+                        <div className="text-2xl">
+                            Ventas Domingo
+                        </div>
+                        <div className="w-full justify-center flex pt-1">
+                            <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-56 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
                                 <table className="w-full">
                                     <thead className="jus">
                                         <tr>
@@ -278,10 +264,15 @@ const VentasSemana: FC<VentasSemanaProps> = ({ ventas }) => {
                                         ))}
                                     </tbody>
                                 </table>
-                            )}
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
+                {ventas.length === 0 && (
+                    <div className="px-10 max-md:px-1 py-5 w-full pb-10">
+                        <div className="text-center text-red-500 text-3xl">No hay ventas en este rango de tiempo</div>
+                    </div>
+                )}
             </div>
         </>
     );

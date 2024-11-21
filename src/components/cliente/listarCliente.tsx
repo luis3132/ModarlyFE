@@ -9,7 +9,9 @@ interface ClientesProps {
         mayorista: boolean, 
         telefono: string, 
         fijo: string, 
-        descripcion: string};
+        descripcion: string,
+        fechaCreacion: Date
+    };
     setReload: () => void;
 }
 
