@@ -141,7 +141,6 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo, set
             }
         }
         fetchClientes();
-        console.log("hola");
     }, [reload]);
     // function to show buttom to create a new client
     useEffect(() => {
@@ -162,6 +161,7 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo, set
                 }
             }
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cliente]);
     // function to calculate the vueltos
     useEffect(() => {
@@ -180,6 +180,7 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo, set
                 vueltos: 0
             });
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [venta.pagacon, venta.metodoDePago]);
 
     const closeModal = () => {
@@ -394,6 +395,7 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo, set
             })) || [];
             setVenttall(newVenttall);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [VentaCreada]);
     // function to update the tallas, decreasing the quantity
     useEffect(() => {
@@ -402,6 +404,7 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo, set
             saveVenttall();
             setUpdate(false);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [venttall]);
     
     useEffect(() => {
@@ -417,12 +420,13 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo, set
             }).then((result) => {
                 deploy();
                 if (result.isConfirmed) {
-                    location.reload();
+                    printFactura();
                 } else {
                     location.reload();
                 }
             });
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [venttallCreada, tallaActualizada]);
 
     const saveVenttall = async () => {
@@ -441,6 +445,72 @@ const PagoItems: FC<PagoItemsProps> = ({ closeComponent, venttall, articulo, set
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Error al guardar los items',
+            });
+        }
+    }
+
+    const printFactura = async () => {
+        try {
+            const res = await fetch(`/api/print`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                        invoiceNumber: VentaCreada?.id,
+                        date: VentaCreada?.fecha,
+                        customer: cliente?.nombres + " " + cliente?.apellidos,
+                        customerId: cliente?.cedula,
+                        articulos: articulo,
+                        paymentMethod: venta.metodoDePago,
+                        pagacon: venta.pagacon,
+                        vueltos: venta.vueltos,
+                        products: venttall?.map((v) => ({
+                            idArticulo: tallasActualizar.find((t) => t.id === v.talla)?.articulo,
+                            talla: tallasActualizar.find((t) => t.id === v.talla)?.talla,
+                            quantity: v.cantidad,
+                            price: v.precioFinal
+                        })),
+                        total: total
+                })
+            });
+            const data = await res.json();
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Factura impresa',
+                    text: 'Factura impresa con exito!',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    } else {
+                        location.reload();
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Error al imprimir la factura',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    } else {
+                        location.reload();
+                    }
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Error al imprimir la factura',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload();
+                } else {
+                    location.reload();
+                }
             });
         }
     }
