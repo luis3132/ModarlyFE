@@ -21,7 +21,8 @@ const RegistrarCliente: FC<CrearClienteProps> = ({ closeComponent }) => {
         fijo: "",
         descripcion: "",
         mayorista: false,
-        fechaCreacion: new Date()
+        fechaCreacion: new Date(),
+        estado: true
     });
     // Function to close the modal
     const [isOpen, setIsOpen] = useState(true);
@@ -78,10 +79,11 @@ const RegistrarCliente: FC<CrearClienteProps> = ({ closeComponent }) => {
         try {
             await Post("/api/cliente/new", cliente);
         } catch (e) {
+            console.log(e);
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Algo salio mal!' + e,
+                text: 'Algo salio mal!',
             });
         }
     }

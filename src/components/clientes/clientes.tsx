@@ -1,5 +1,6 @@
 import { Cliente } from "@/lib/types/types";
 import React, { FC, useState } from "react";
+import VerCliente from "./verCliente";
 
 interface ClientesProps {
     cliente: Cliente;
@@ -20,9 +21,9 @@ const Clientes: FC<ClientesProps> = ({cliente}) => {
                 <p className="text-lg">{cliente.mayorista ? "Mayorista" : "Minorista"}</p>
                 <button type="button" title="show" className="bg-blue-500 text-white p-2 rounded-lg self-end mt-auto " onClick={handShowCliente}>Ver mas</button>
             </div>
-            {/*showCliente && (
-                <VerCliente cliente={cliente} closeComponent={handShowCliente} setReload={setReload} />
-            )*/}
+            {showCliente && (
+                <VerCliente cliente={cliente} closeComponent={handShowCliente} />
+            )}
         </>
     );
 }

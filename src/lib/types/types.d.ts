@@ -7,4 +7,59 @@ export interface Cliente {
     descripcion: string;
     mayorista: boolean;
     fechaCreacion: Date;
+    estado: boolean;
+}
+
+export interface Categoria {
+    id: number;
+    padre: string;
+    hija: string;
+}
+
+export interface Articate {
+    id: {
+        articulo: number;
+        categoria: number;
+    }
+    articulo: Articulo;
+    categoria: Categoria;
+}
+
+export interface Articulo {
+    id: number;
+    nombre: string;
+    descripcion: string;
+    precioDetal: number;
+    precioMayorista: number;
+    estado: boolean;
+    articate: Articate;
+}
+
+export interface Talla {
+    id: number;
+    talla: string;
+    cantidad: number;
+    estado: boolean;
+    articulo: Articulo;
+}
+
+export interface Venttall {
+    id: {
+        venta: number;
+        talla: number;
+    },
+    cantidad: number;
+    precioFinal: number;
+    talla: Talla;
+    venta: Venta;
+}
+
+export interface Venta {
+    id: number;
+    cliente: Cliente;
+    fecha: Date;
+    pagacon: number;
+    vueltos: number;
+    metodoDePago: string;
+    venttall: Venttall[];
 }
