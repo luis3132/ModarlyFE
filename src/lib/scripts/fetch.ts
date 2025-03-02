@@ -40,6 +40,5 @@ export async function Delete(url: string) {
             "Content-Type": "application/json"
         }
     });
-    const data = await respose.json();
-    return {data, status: respose.status};
+    return { status: respose.status};
 }

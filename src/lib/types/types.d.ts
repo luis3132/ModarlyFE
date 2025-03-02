@@ -16,6 +16,12 @@ export interface Categoria {
     hija: string;
 }
 
+export interface CategoriaCreate {
+    padre: string;
+    hija: string;
+    estado: boolean;
+}
+
 export interface Articate {
     id: {
         articulo: number;
