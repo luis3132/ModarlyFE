@@ -20,8 +20,7 @@ export default function RootLayout({
         <link rel="icon" href="/modarly.jpeg" />
       </head>
       <body
-        className={`antialiased h-dvh flex max-md:flex-col`}
-      >
+        className={`antialiased h-dvh flex max-md:flex-col`}>
         <Sidebar />
         {children}
       </body>

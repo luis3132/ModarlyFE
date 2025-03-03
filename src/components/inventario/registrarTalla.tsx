@@ -1,0 +1,64 @@
+import React, { ChangeEvent, FC, useState } from "react";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { ArticuloCreate, TallaCreate } from "@/lib/types/types";
+
+interface Tallaprops {
+    articulo: ArticuloCreate;
+    setTallaList: () => void;
+    talla: TallaCreate;
+    setTalla: (e: ChangeEvent<HTMLInputElement>) => void;
+    eliminarTalla: (index: number) => void;
+}
+
+const RegistrarTalla: FC<Tallaprops> = ({ articulo, setTallaList, talla, setTalla, eliminarTalla }) => {
+    const [deploy, setDeploy] = useState(false);
+    return (
+        <>
+            {articulo.tallas.map((t, index) => (
+                <tr key={index} className="mb-2">
+                    <td>{t.talla}</td>
+                    <td>{t.cantidad}</td>
+                    <td className="flex justify-center">
+                        <button className="justify-center flex items-center p-1 bg-red-500 hover:bg-red-600 rounded-lg" onClick={() => eliminarTalla(index)}>
+                            <Icon icon="line-md:cancel-twotone" />
+                            Eliminar
+                        </button>
+                    </td>
+                </tr>
+            ))}
+            {deploy && (
+                <tr className="mb-2 bg-gray-400">
+                    <td>
+                        <input name="talla" value={talla.talla} onChange={(e) => setTalla(e)} maxLength={5} id="talla" type="text" className="bg-gray-200 h-8 rounded-full text-center w-[80%]" placeholder="M" />
+                    </td>
+                    <td>
+                        <input name="cantidad" value={talla.cantidad} onChange={(e) => setTalla(e)} maxLength={5} id="cantidad" type="number" className="bg-gray-200 h-8 rounded-full text-center w-[80%] pl-2" placeholder="10" ></input>
+                    </td>
+                    <td className="flex flex-col">
+                        <button className="justify-center flex items-center p-1 bg-lime-200 hover:bg-lime-300 rounded-lg" onClick={() => { setTallaList(); setDeploy(false) }}>
+                            <Icon icon="ri:save-line" />
+                            Guardar
+                        </button>
+                        <button className="justify-center flex items-center p-1 bg-red-400 hover:bg-red-500 rounded-lg" onClick={() => { setDeploy(false); }}>
+                            <Icon icon="line-md:cancel-twotone" />
+                            Cancelar
+                        </button>
+                    </td>
+                </tr>
+            )}
+            {!deploy && (
+                <tr>
+                    <td></td>
+                    <td>
+                        <button title="add" className="text-2xl" onClick={() => setDeploy(!deploy)}>
+                            <Icon icon="bx:bxs-plus-circle" />
+                        </button>
+                    </td>
+                    <td></td>
+                </tr>
+            )}
+        </>
+    )
+}
+
+export default RegistrarTalla;

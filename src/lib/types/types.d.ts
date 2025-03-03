@@ -31,6 +31,11 @@ export interface Articate {
     categoria: Categoria;
 }
 
+export interface ArticateCreate {
+    articulo: number;
+    categoria: number;
+}
+
 export interface Articulo {
     id: number;
     nombre: string;
@@ -38,7 +43,27 @@ export interface Articulo {
     precioDetal: number;
     precioMayorista: number;
     estado: boolean;
-    articate: Articate;
+    categorias: Categoria[];
+    tallas: Talla[];
+}
+
+export interface ArticuloCreate {
+    nombre: string;
+    descripcion: string;
+    precioDetal: number | "";
+    precioMayorista: number | "";
+    estado: boolean;
+    categorias: number[];
+    tallas: TallaCreate[];
+}
+
+export interface ArticuloUpdate {
+    id: number;
+    nombre: string;
+    descripcion: string;
+    precioDetal: number | "";
+    precioMayorista: number | "";
+    estado: boolean;
 }
 
 export interface Talla {
@@ -47,6 +72,21 @@ export interface Talla {
     cantidad: number;
     estado: boolean;
     articulo: Articulo;
+}
+
+export interface TallaCreate {
+    talla: string;
+    cantidad: number | "";
+    estado: boolean;
+    articulo: number;
+}
+
+export interface TallaUpdate {
+    id: number;
+    talla: string;
+    cantidad: number;
+    estado: boolean;
+    articulo: number;
 }
 
 export interface Venttall {

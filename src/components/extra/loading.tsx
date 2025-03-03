@@ -1,14 +1,7 @@
-
-
 export default function Loading() {
     return (
-        <>
-            <div className={`p-10 flex-grow h-screen justify-center flex items-center`}>
-                <div className="spinner">
-                    <div className="double-bounce1"></div>
-                    <div className="double-bounce2"></div>
-                </div>
-            </div>
-        </>
-    )
+        <div className="flex items-center justify-center h-dvh w-full">
+            <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-blue-500"></div>
+        </div>
+    );
 }

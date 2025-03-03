@@ -102,7 +102,7 @@ const RegistrarCategoria: FC<CrearCategoriaProps> = ({ closeComponent }) => {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Ha ocurrido un error al guardar la categoria!',
+                text: 'Ha ocurrido un error al guardar la categoria! (es posible que la categoria ya exista)',
             });
         }
     }
