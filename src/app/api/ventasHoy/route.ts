@@ -1,3 +1,4 @@
+import { Articulo } from '@/lib/types/types';
 import { NextResponse, NextRequest } from 'next/server';
 import { ThermalPrinter, PrinterTypes, CharacterSet, BreakLine } from 'node-thermal-printer';
 
@@ -56,8 +57,9 @@ export async function POST(req: NextRequest) {
         ]);
         printer.drawLine();
 
-        products.forEach((product) => {
-            const name = articulos.find((articulo) => articulo.id === product.idArticulo)?.nombre;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        products.forEach((product: any) => {
+            const name = articulos.find((articulo: Articulo) => articulo.id === product.idArticulo)?.nombre;
             printer.tableCustom([
                 { text: name + " " + product.talla, align: 'LEFT', width: 0.4 },
                 { text: product.quantity.toString(), align: 'CENTER', width: 0.2 },
