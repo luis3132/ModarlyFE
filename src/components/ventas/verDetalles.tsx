@@ -20,6 +20,8 @@ const VerDetalles: FC<VerDetallesProps> = ({ closeComponent, venta }) => {
         return total + (i?.precioFinal || 0);
     }, 0);
 
+    console.log(venta);
+
     return (
         <>
             <div className="w-full fixed inset-0 flex items-center justify-center backdrop-blur-sm z-10">
