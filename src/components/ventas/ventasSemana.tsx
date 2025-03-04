@@ -26,9 +26,9 @@ const VentasSemana: FC<VentasSemanaProps> = ({ ventas }) => {
                     <h1 className="text-3xl font-bold text-black">Ventas de la semana</h1>
                 </div>
                 {ventas.length > 0 && (
-                    <div className="px-10 max-md:px-1 py-5 w-full">
+                    <div className="px-10 max-md:px-1 py-5 w-full max-h-[80%]">
                         <div className="w-full justify-center flex pt-1">
-                            <div className="w-[80%] max-md:w-full max-h-56 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
+                            <div className="w-[80%] max-md:w-full  bg-gray-200 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
                                 <table className="w-full">
                                     <thead className="jus">
                                         <tr>
@@ -42,7 +42,7 @@ const VentasSemana: FC<VentasSemanaProps> = ({ ventas }) => {
                                     </thead>
                                     <tbody>
                                         {ventasLunes.length > 0 && (
-                                            <tr className="w-full text-center">
+                                            <tr className="w-full text-center font-bold">
                                                 <td colSpan={6}>Ventas Lunes</td>
                                             </tr>
                                         )}
@@ -50,7 +50,7 @@ const VentasSemana: FC<VentasSemanaProps> = ({ ventas }) => {
                                             <VerVentas key={i} index={i} venta={venta} />
                                         ))}
                                         {ventasMartes.length > 0 && (
-                                            <tr className="w-full text-center">
+                                            <tr className="w-full text-center font-bold">
                                                 <td colSpan={6}>Ventas Martes</td>
                                             </tr>
                                         )}
@@ -58,7 +58,7 @@ const VentasSemana: FC<VentasSemanaProps> = ({ ventas }) => {
                                             <VerVentas key={i} index={i} venta={venta} />
                                         ))}
                                         {ventasMiercoles.length > 0 && (
-                                            <tr className="w-full text-center">
+                                            <tr className="w-full text-center font-bold">
                                                 <td colSpan={6}>Ventas Miercoles</td>
                                             </tr>
                                         )}
@@ -66,7 +66,7 @@ const VentasSemana: FC<VentasSemanaProps> = ({ ventas }) => {
                                             <VerVentas key={i} index={i} venta={venta} />
                                         ))}
                                         {ventasJueves.length > 0 && (
-                                            <tr className="w-full text-center">
+                                            <tr className="w-full text-center font-bold">
                                                 <td colSpan={6}>Ventas Jueves</td>
                                             </tr>
                                         )}
@@ -74,7 +74,7 @@ const VentasSemana: FC<VentasSemanaProps> = ({ ventas }) => {
                                             <VerVentas key={i} index={i} venta={venta} />
                                         ))}
                                         {ventasViernes.length > 0 && (
-                                            <tr className="w-full text-center">
+                                            <tr className="w-full text-center font-bold">
                                                 <td colSpan={6}>Ventas Viernes</td>
                                             </tr>
                                         )}
@@ -82,7 +82,7 @@ const VentasSemana: FC<VentasSemanaProps> = ({ ventas }) => {
                                             <VerVentas key={i} index={i} venta={venta} />
                                         ))}
                                         {ventasSabado.length > 0 && (
-                                            <tr className="w-full text-center">
+                                            <tr className="w-full text-center font-bold">
                                                 <td colSpan={6}>Ventas Sabado</td>
                                             </tr>
                                         )}
@@ -90,7 +90,7 @@ const VentasSemana: FC<VentasSemanaProps> = ({ ventas }) => {
                                             <VerVentas key={i} index={i} venta={venta} />
                                         ))}
                                         {ventasDomingo.length > 0 && (
-                                            <tr className="w-full text-center">
+                                            <tr className="w-full text-centerfont-bold">
                                                 <td colSpan={6}>Ventas Domingo</td>
                                             </tr>
                                         )}

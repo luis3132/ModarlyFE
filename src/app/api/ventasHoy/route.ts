@@ -1,6 +1,22 @@
-import { Articulo } from '@/lib/types/types';
 import { NextResponse, NextRequest } from 'next/server';
 import { ThermalPrinter, PrinterTypes, CharacterSet, BreakLine } from 'node-thermal-printer';
+
+interface Product {
+    invoiceNumber: number;
+    date: string;
+    customer: string;
+    customerId: string;
+    paymentMethod: string;
+    pagacon: number;
+    vueltos: number;
+    products: {
+        name: string;
+        talla: string;
+        quantity: number;
+        price: number;
+    }[];
+    total: number;
+}
 
 export async function POST(req: NextRequest) {
     try {
@@ -20,9 +36,8 @@ export async function POST(req: NextRequest) {
         });
 
         // Body de la impresion
-        const body = await req.json();
+        const body: Product = await req.json();
         const products = body.products;
-        const articulos = body.articulos;
 
         // Conectar a la impresora
         const isConnected = await printer.isPrinterConnected();
@@ -57,11 +72,9 @@ export async function POST(req: NextRequest) {
         ]);
         printer.drawLine();
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        products.forEach((product: any) => {
-            const name = articulos.find((articulo: Articulo) => articulo.id === product.idArticulo)?.nombre;
+        products.forEach((product) => {
             printer.tableCustom([
-                { text: name + " " + product.talla, align: 'LEFT', width: 0.4 },
+                { text: product.name + " " + product.talla, align: 'LEFT', width: 0.4 },
                 { text: product.quantity.toString(), align: 'CENTER', width: 0.2 },
                 { text: product.price.toFixed(2), align: 'RIGHT', width: 0.3 }
             ]);

@@ -71,8 +71,8 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="w-full h-[92%]">
-                        <div className="flex flex-wrap max-h-[100%] w-full px-5 overflow-y-scroll custom-scrollbar">
+                    <div className="w-full h-[93%]">
+                        <div className="flex flex-wrap max-h-[100%] w-full px-5 overflow-y-scroll custom-scrollbar max-md:justify-center">
                             {filteredArticulos.map((articulo) => (
                             <ListarInventario articulo={articulo} key={articulo.id} />
                         ))}

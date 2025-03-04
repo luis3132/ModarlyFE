@@ -73,13 +73,10 @@ const VentasHoy: FC<VentasHoyProps> = ({ ventas }) => {
                 <div className="w-full justify-center flex pt-10">
                     <h1 className="text-3xl font-bold text-black">Ventas de hoy</h1>
                 </div>
-                {madrugadaVentas.length > 0 && (
+                {ventas.length > 0 && (
                     <div className="px-10 max-md:px-1 py-5 w-full">
-                        <div className="text-2xl">
-                            Ventas Madrugada (12 am - 6 am)
-                        </div>
                         <div className="w-full justify-center flex pt-1">
-                            <div className="w-[80%] max-md:w-full bg-black bg-opacity-15 max-h-56 rounded-xl p-5 overflow-y-scroll custom-scrollbar">
+                            <div className="w-[80%] max-md:w-full bg-gray-200 max-h-[85%] rounded-xl p-5 overflow-y-scroll custom-scrollbar">
                                 <table className="w-full">
                                     <thead className="jus">
                                         <tr>

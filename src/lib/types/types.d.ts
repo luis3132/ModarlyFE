@@ -100,6 +100,13 @@ export interface Venttall {
     venta: Venta;
 }
 
+export interface VenttallCreate {
+    venta: number;
+    talla: number;
+    cantidad: number;
+    precioFinal: number;
+}
+
 export interface Venta {
     id: number;
     cliente: Cliente;
@@ -108,4 +115,13 @@ export interface Venta {
     vueltos: number;
     metodoDePago: string;
     venttall: Venttall[];
+}
+
+export interface VentaCreate {
+    fecha: string;
+    cliente: string;
+    pagacon: number;
+    vueltos: number;
+    metodoDePago: string;
+    venttall: VenttallCreate[];
 }
