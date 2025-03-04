@@ -1,22 +1,6 @@
+import { PrintFactura } from '@/lib/types/types';
 import { NextResponse, NextRequest } from 'next/server';
 import { ThermalPrinter, PrinterTypes, CharacterSet, BreakLine } from 'node-thermal-printer';
-
-interface Product {
-    invoiceNumber: number;
-    date: string;
-    customer: string;
-    customerId: string;
-    paymentMethod: string;
-    pagacon: number;
-    vueltos: number;
-    products: {
-        name: string;
-        talla: string;
-        quantity: number;
-        price: number;
-    }[];
-    total: number;
-}
 
 export async function POST(req: NextRequest) {
     try {
@@ -36,7 +20,7 @@ export async function POST(req: NextRequest) {
         });
 
         // Body de la impresion
-        const body: Product = await req.json();
+        const body: PrintFactura = await req.json();
         const products = body.products;
 
         // Conectar a la impresora

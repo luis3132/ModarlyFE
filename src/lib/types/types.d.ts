@@ -125,3 +125,20 @@ export interface VentaCreate {
     metodoDePago: string;
     venttall: VenttallCreate[];
 }
+
+export interface PrintFactura {
+    invoiceNumber: number;
+    date: string;
+    customer: string;
+    customerId: string;
+    paymentMethod: string;
+    pagacon: number;
+    vueltos: number;
+    products: {
+        name: string;
+        talla: string;
+        quantity: number;
+        price: number;
+    }[];
+    total: number;
+}
